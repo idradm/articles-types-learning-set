@@ -36,7 +36,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'watson'
+    'django.forms',
+    'bootstrap3',
+    'watson',
 )
 
 MIDDLEWARE_CLASSES = (
