@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth import models as auth
 
 # Create your models here.
 class ArticleData(models.Model):
@@ -20,11 +21,11 @@ class SessionArticles(models.Model):
 
 class ArticleTypes(models.Model):
   article = models.ForeignKey(ArticleData)
-  user = models.CharField(max_length=255)
+  user = models.ForeignKey(auth.User)
   changed = models.DateTimeField(auto_now=True)
   type = models.CharField(max_length=100)
 
 class State(models.Model):
   session = models.ForeignKey(Sessions)
-  user = models.CharField(max_length=255)
+  user = models.ForeignKey(auth.User)
   number = models.IntegerField()
