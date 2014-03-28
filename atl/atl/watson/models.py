@@ -13,6 +13,7 @@ class ArticleData(models.Model):
 class Sessions(models.Model):
   name = models.CharField(max_length=255)
   created = models.DateTimeField(auto_now_add=True)
+  size = models.IntegerField()
 
 class SessionArticles(models.Model):
   session = models.ForeignKey(Sessions)
