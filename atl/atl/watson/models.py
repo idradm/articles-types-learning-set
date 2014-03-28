@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth import models as auth
 
-# Create your models here...
+# Create your models here..
 class ArticleData(models.Model):
   wikiId = models.IntegerField()
   pageId = models.IntegerField()
