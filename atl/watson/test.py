@@ -1,4 +1,4 @@
-from atl.watson import documents
+import documents
 
 a = documents.DocumentsGenerator()
 

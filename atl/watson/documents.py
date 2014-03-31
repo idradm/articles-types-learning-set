@@ -1,4 +1,5 @@
 from atl.wikia import api
+from atl.watson import models
 
 class DocumentsGenerator(object):
 
@@ -7,5 +8,9 @@ class DocumentsGenerator(object):
     def __init__(self):
         super(DocumentsGenerator, self).__init__()
         self.api = api.DocumentProvider
+
+    def generate_session(self, session_id):
+        session_model = models.Sessions()
+        pass
 
 
