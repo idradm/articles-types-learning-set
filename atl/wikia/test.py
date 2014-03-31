@@ -1,4 +1,4 @@
-import search, api
+
 
 
 #s = search.WikiaSearch()
@@ -6,9 +6,9 @@ import search, api
 #print resp['response']['docs']
 
 
-a = api.DocumentProvider(search.WikiaSearch())
-resp = a.generate_new_sample(10)
+#a = api.DocumentProvider(search.WikiaSearch())
+#resp = a.generate_new_sample(10)
 
-print resp
+
 
 

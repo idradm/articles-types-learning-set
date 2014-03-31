@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.forms',
     'bootstrap3',
     'watson',
+    'wikia'
 )
 
 MIDDLEWARE_CLASSES = (
