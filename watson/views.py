@@ -24,18 +24,23 @@ def login(request):
 
 
 def main(request, session, number):
-  if session is None:
+  if request.user.is_authenticated():
     try:
       state = State.objects.get(user=request.user)
-      session = state.session
-      number = state.number
     except State.DoesNotExist:
-      sessions = Sessions.objects.all()[:1]
-      session = sessions[0].name
+      state = State(user=request.user)
 
-  if request.user.is_authenticated():
+    if session is None:
+      if state.session is not None:
+        state = State.objects.get(user=request.user)
+        return redirect('/watson/' + state.session.name + '/' + state.number)
+      else:
+        sessions = Sessions.objects.all()[:1]
+        session = sessions[0].name
     if number is None:
       return redirect('/watson/' + session + '/0')
+
+    state.updateState(session, number)
     return render(request, 'main.html', {"state": {'session': session, 'number': number}})
   else:
     return redirect('login')
@@ -44,3 +49,6 @@ def sessions(request):
   data = Sessions.objects.all()
   json = serializers.serialize('json', data)
   return HttpResponse(json, content_type="application/json")
+
+# def next(request):
+  # print(State.objects.get(user=request.user))

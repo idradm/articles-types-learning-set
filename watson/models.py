@@ -30,3 +30,8 @@ class State(models.Model):
   session = models.ForeignKey(Sessions)
   user = models.ForeignKey(auth.User)
   number = models.IntegerField()
+
+  def updateState(self, session, number):
+    self.session = Sessions.objects.get(name=session)
+    self.number = number
+    self.save()
