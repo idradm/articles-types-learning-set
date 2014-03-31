@@ -1,5 +1,6 @@
-from atl.wikia import api
-from atl.watson import models
+from watson import models
+from wikia import api
+
 
 class DocumentsGenerator(object):
 
