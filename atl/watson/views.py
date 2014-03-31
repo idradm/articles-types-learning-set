@@ -23,7 +23,9 @@ def login(request):
   return render(request, 'login.html', {'form': form})
 
 
-def main(request):
+def main(request, session, number):
+  print(session)
+  print(number)
   if request.user.is_authenticated():
     return render(request, 'main.html')
   else:

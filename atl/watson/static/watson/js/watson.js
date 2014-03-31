@@ -15,6 +15,7 @@ $(function(){
                 for(item in data){
                     var $li = $(document.createElement('li'));
                     var $a = $(document.createElement('a'));
+                    $a.click(data[item].fields.name, changeSession);
                     $a.html(data[item].fields.name);
                     $li.html($a);
                     $ul.append($li);
@@ -23,4 +24,8 @@ $(function(){
             });
         }
     });
+
+    function changeSession(e) {
+        console.info(e.data);
+    }
 });
