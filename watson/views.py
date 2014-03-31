@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login
 from django.template import Template, RequestContext
 from watson.forms.login import WatsonLoginForm
-from watson.models import Sessions
+from watson.models import Sessions, State
 
 # Create your views here.
 def login(request):
@@ -24,10 +24,19 @@ def login(request):
 
 
 def main(request, session, number):
-  print(session)
-  print(number)
+  if session is None:
+    try:
+      state = State.objects.get(user=request.user)
+      session = state.session
+      number = state.number
+    except State.DoesNotExist:
+      sessions = Sessions.objects.all()[:1]
+      session = sessions[0].name
+
   if request.user.is_authenticated():
-    return render(request, 'main.html')
+    if number is None:
+      return redirect('/watson/' + session + '/0')
+    return render(request, 'main.html', {"state": {'session': session, 'number': number}})
   else:
     return redirect('login')
 

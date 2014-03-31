@@ -26,6 +26,6 @@ $(function(){
     });
 
     function changeSession(e) {
-        console.info(e.data);
+        window.location.href = window.location.origin + '/watson/' + e.data;
     }
 });
