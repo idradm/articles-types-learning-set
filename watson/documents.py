@@ -1,4 +1,4 @@
-from watson import models
+import models
 from wikia import api
 
 
@@ -11,7 +11,8 @@ class DocumentsGenerator(object):
         self.api = api.DocumentProvider
 
     def generate_session(self, session_id):
-        session_model = models.Sessions()
+
+        sesssion = models.Sessions.objects.filter(id=2)
         pass
 
 
