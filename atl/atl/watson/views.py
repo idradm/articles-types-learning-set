@@ -1,6 +1,11 @@
+import json
+from django.core import serializers
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login
+from django.template import Template, RequestContext
 from watson.forms.login import WatsonLoginForm
+from watson.models import Sessions
 
 # Create your views here.
 def login(request):
@@ -23,3 +28,8 @@ def main(request):
     return render(request, 'main.html')
   else:
     return redirect('login')
+
+def sessions(request):
+  data = Sessions.objects.all()
+  json = serializers.serialize('json', data)
+  return HttpResponse(json, content_type="application/json")
