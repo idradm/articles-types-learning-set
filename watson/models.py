@@ -20,11 +20,15 @@ class SessionArticles(models.Model):
   article = models.ForeignKey(ArticleData)
   number = models.IntegerField()
 
+class Type(models.Model):
+  category = models.CharField(max_length=50)
+  name = models.CharField(max_length=100)
+
 class ArticleTypes(models.Model):
   article = models.ForeignKey(ArticleData)
   user = models.ForeignKey(auth.User)
   changed = models.DateTimeField(auto_now=True)
-  type = models.CharField(max_length=100)
+  type = models.ForeignKey(Type)
 
 class State(models.Model):
   session = models.ForeignKey(Sessions)

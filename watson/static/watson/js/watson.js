@@ -1,8 +1,18 @@
 $(function(){
-    $('.save-btn').click(function() {
-        console.info(this);
-        console.info($(this).val());
-        //ajax query
+    $('.watson-btn').click(function() {
+        var that = this;
+        var data = {
+            "csrfmiddlewaretoken": $('.token input').val(),
+            "type": $(this).val()
+        };
+        $.ajax({
+            url: window.location.href,
+            type: "POST",
+            data: data
+        }).success(function(e) {
+            $('.watson-btn-group .watson-btn').removeClass('btn-success');
+            $(that).addClass('btn-success');
+        });
     });
 
     $('.watson-next').click(function() {
@@ -13,7 +23,7 @@ $(function(){
         });
     });
 
-    $('.watson-sessions-dropdown').click(function() {
+    $('.watson-sessions').click(function() {
         if(!$('.dropdown ul').children().length) {
             $.ajax({
                 url: "/sessions/"

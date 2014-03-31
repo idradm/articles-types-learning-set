@@ -5,21 +5,24 @@
 {% load bootstrap3 %}
 {% bootstrap_css %}
 {% bootstrap_javascript %}
-{% csrf_token %}
+<div class="token">
+    {% csrf_token %}
+</div>
 
 <nav class="navbar navbar-default navbar-static-top" role="navigation">
     <div class="container-fluid">
         <div class="nav navbar-nav">
             <div class="dropdown">
-                <div class="watson-sessions-dropdown dropdown-toggle navbar-brand" data-toggle="dropdown">
+                <div class="watson-sessions dropdown-toggle navbar-brand" data-toggle="dropdown">
                     {{ state.session }}
                 </div>
             </div>
         </div>
         <div class="nav navbar-nav">
-            <div class="btn-group">
-                <button type="button" class="btn btn-default navbar-btn save-btn" value="location">Location</button>
-                <button type="button" class="btn btn-default navbar-btn save-btn" value="character">Character</button>
+            <div class="btn-group watson-btn-group">
+                {% for type in types %}
+                    <button type="button" class="btn btn-default navbar-btn save-btn watson-btn{% if type.set %} btn-success{% endif %}" value="{{ type.name }}">{{ type.name }}</button>
+                {% endfor %}
             </div>
             <button type="button" class="btn btn-primary navbar-btn watson-next">Next</button>
         </div>

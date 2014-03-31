@@ -1,5 +1,5 @@
 from django.contrib import admin
-from watson.models import Sessions, State
+from watson.models import Sessions, State, ArticleTypes, SessionArticles, ArticleData, Type
 
 
 # Register your models here.
@@ -19,3 +19,7 @@ class SessionAdmin(admin.ModelAdmin):
 
 admin.site.register(Sessions, SessionAdmin)
 admin.site.register(State)
+admin.site.register(ArticleTypes)
+admin.site.register(SessionArticles)
+admin.site.register(ArticleData)
+admin.site.register(Type)
