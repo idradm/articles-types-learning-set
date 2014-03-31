@@ -33,7 +33,7 @@ def main(request, session, number):
     if session is None:
       if state.session is not None:
         state = State.objects.get(user=request.user)
-        return redirect('/watson/' + state.session.name + '/' + state.number)
+        return redirect('/watson/' + state.session.name + '/' + str(state.number))
       else:
         sessions = Sessions.objects.all()[:1]
         session = sessions[0].name
