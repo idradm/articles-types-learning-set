@@ -1,5 +1,5 @@
 import json
-from django.core import serializers
+from urllib import parse
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login
@@ -46,9 +46,24 @@ def main(request, session, number):
     return redirect('login')
 
 def sessions(request):
-  data = Sessions.objects.all()
-  json = serializers.serialize('json', data)
-  return HttpResponse(json, content_type="application/json")
+  if request.user.is_authenticated():
+    result = []
+    data = Sessions.objects.all()
+    for item in data:
+      result.append({'name': item.name})
+    output = json.dumps(result)
+    return HttpResponse(output, content_type="application/json")
+  else:
+    raise HttpResponse(status=401)
 
-# def next(request):
-  # print(State.objects.get(user=request.user))
+def next(request):
+  if request.user.is_authenticated():
+    state = State.objects.get(user=request.user)
+    if state.session.size > state.number + 1:
+      number = state.number + 1
+    else:
+      number = 0
+    output = json.dumps({"path": '/watson/' + parse.quote(state.session.name) + '/' + str(number)})
+    return HttpResponse(output, content_type="application/json")
+  else:
+    raise HttpResponse(status=401)

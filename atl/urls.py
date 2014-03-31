@@ -13,4 +13,5 @@ urlpatterns = patterns('',
     url(r'^$', views.login, name="login"),
     url(r'^watson(?:/)?(?P<session>[\s\w]+)?(?:/)?(?P<number>[\s\w]+)?$', views.main, name="main"),
     url(r'^sessions/$', views.sessions, name="sessions"),
+    url(r'^next/$', views.next, name="next"),
 )

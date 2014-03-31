@@ -5,7 +5,15 @@ $(function(){
         //ajax query
     });
 
-    $('.sessions-dropdown').click(function() {
+    $('.watson-next').click(function() {
+        $.ajax({
+            url: "/next/"
+        }).done(function(data){
+            window.location.href = window.location.origin + data.path;
+        });
+    });
+
+    $('.watson-sessions-dropdown').click(function() {
         if(!$('.dropdown ul').children().length) {
             $.ajax({
                 url: "/sessions/"
@@ -15,8 +23,8 @@ $(function(){
                 for(item in data){
                     var $li = $(document.createElement('li'));
                     var $a = $(document.createElement('a'));
-                    $a.click(data[item].fields.name, changeSession);
-                    $a.html(data[item].fields.name);
+                    $a.click(data[item].name, changeSession);
+                    $a.html(data[item].name);
                     $li.html($a);
                     $ul.append($li);
                 }
