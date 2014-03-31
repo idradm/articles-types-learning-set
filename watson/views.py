@@ -48,15 +48,8 @@ def main(request, session, number):
     # get types and set current one
     types = Type.objects.all()
     at = getType(state)
-    if at:
-      pk = None
-      for type in types:
-        if at.type == type:
-          pk = type.pk
-          break
-      if pk is not None:
-        types[pk].set = True
-    return render(request, 'main.html', {"state": {'session': session, 'number': number}, 'types': types})
+    t = types.get(name=at.type.name).pk if at else False
+    return render(request, 'main.html', {"state": {'session': session, 'number': number}, 'types': types, 'set': t})
   else:
     return redirect('login')
 
