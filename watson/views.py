@@ -1,9 +1,8 @@
 import json
-from urllib import parse
+import urllib
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login
-from django.template import Template, RequestContext
 from watson.forms.login import WatsonLoginForm
 from watson.models import Sessions, State, ArticleTypes, SessionArticles, Type
 
@@ -71,7 +70,7 @@ def next(request):
       number = state.number + 1
     else:
       number = 0
-    output = json.dumps({"path": '/watson/' + parse.quote(state.session.name) + '/' + str(number)})
+    output = json.dumps({"path": '/watson/%s/%d' % (urllib.urlencode(state.session.name), number)})
     return HttpResponse(output, content_type="application/json")
   else:
     raise HttpResponse(status=401)
