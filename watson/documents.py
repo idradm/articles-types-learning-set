@@ -47,6 +47,6 @@ class DocumentsGenerator(object):
 
         num = 0
         for doc in documents:
-            num += 1
             article_model = self.create_document(doc)
             self.save_article_to_session(session_id, num, article_model)
+            num += 1
