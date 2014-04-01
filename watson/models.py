@@ -25,6 +25,9 @@ class ArticleData(models.Model):
         executor = ThreadPoolExecutor(max_workers=1)
         executor.submit(self.getData())
 
+    def __unicode__(self):
+        return "%d_%d" % (int(self.wikiId), int(self.pageId))
+
 
 class Sessions(models.Model):
     name = models.CharField(max_length=255)
@@ -41,6 +44,9 @@ class SessionArticles(models.Model):
 class Type(models.Model):
     category = models.CharField(max_length=50)
     name = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return "%s:%s" % (self.category, self.name)
 
 
 class ArticleTypes(models.Model):

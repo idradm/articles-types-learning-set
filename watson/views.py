@@ -1,6 +1,5 @@
 import json
 import urllib
-from django.utils.functional import empty
 import documents
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
