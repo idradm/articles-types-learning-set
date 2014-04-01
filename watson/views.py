@@ -48,7 +48,9 @@ def main(request, session, number):
         types = Type.objects.all()
         at = getType(state)
         t = types.get(name=at.type.name).pk if at else False
-        return render(request, 'main.html', {"state": {'session': session, 'number': number}, 'types': types, 'set': t})
+        return render(request, 'main.html',
+                      {'state': {'session': session, 'number': number}, 'url': at.article.url, 'types': types, 'set': t}
+                      )
     else:
         return redirect('login')
 
@@ -72,7 +74,7 @@ def next(request):
             number = state.number + 1
         else:
             number = 0
-        output = json.dumps({"path": '/watson/%s/%d' % (urllib.urlencode(state.session.name), number)})
+        output = json.dumps({"path": '/watson/%s/%d' % (urllib.quote(state.session.name), number)})
         return HttpResponse(output, content_type="application/json")
     else:
         raise HttpResponse(status=401)

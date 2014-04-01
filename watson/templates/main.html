@@ -1,14 +1,14 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 {% load staticfiles %}
-<link rel="stylesheet" type="text/css" href="{% static " watson/css/watson.css" %}" media="screen" />
-<script src="{% static " watson/js/watson.js" %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static "watson/css/watson.css" %}" media="screen" />
+<script src="{% static "watson/js/watson.js" %}"></script>
 {% load bootstrap3 %}
 {% bootstrap_css %}
 {% bootstrap_javascript %}
 <div class="token">
     {% csrf_token %}
 </div>
-<iframe class="fixed margin-top-50" src="{{  }}" style="width: 100%; height: 95%;"></iframe>
+<iframe src="{{ url }}" class="fixed margin-top-50 width-100p height-95p"></iframe>
 <nav class="navbar navbar-default navbar-static-top fixed margin-bottom-0" role="navigation">
     <div class="container-fluid">
         <div class="nav navbar-nav">
