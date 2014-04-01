@@ -46,10 +46,20 @@ def main(request, session, number):
 
         # get types and set current one
         types = Type.objects.all()
+        categories = {}
+        for type in types:
+            if type.category not in categories.keys():
+                categories[type.category] = []
+            categories[type.category].append(type)
         at = getType(state)
-        t = types.get(name=at.type.name).pk if at else False
+        t = types.get(name=at.type.name) if at else False
         return render(request, 'main.html',
-                      {'state': {'session': session, 'number': number}, 'url': at.article.url, 'types': types, 'set': t}
+                      {
+                          'state': {'session': session, 'number': number},
+                          'url': at.article.url,
+                          'categories': categories,
+                          'set': t
+                      }
                       )
     else:
         return redirect('login')

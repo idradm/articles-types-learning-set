@@ -5,15 +5,16 @@ $(function(){
         var that = this;
         var data = {
             "csrfmiddlewaretoken": $('.token input').val(),
-            "type": $(this).val()
+            "type": $(this).text()
         };
         $.ajax({
             url: window.location.href,
             type: "POST",
             data: data
         }).success(function(e) {
-            $('.watson-btn-group .watson-btn').removeClass('btn-success');
+            $('.watson-cat').find('.btn-success').removeClass('btn-success');
             $(that).addClass('btn-success');
+            $('.watson-cat').has(that).find('.watson-cat-btn').addClass('btn-success');
         });
     });
 
@@ -26,7 +27,7 @@ $(function(){
     });
 
     $('.watson-sessions').click(function() {
-        if(!$('.dropdown ul').children().length) {
+        if(!$('.watson-sessions-dropdown ul').children().length) {
             $.ajax({
                 url: "/sessions/"
             }).done(function(data){
@@ -40,7 +41,7 @@ $(function(){
                     $li.html($a);
                     $ul.append($li);
                 }
-                $('.dropdown').append($ul);
+                $('.watson-sessions-dropdown').append($ul);
             });
         }
     });

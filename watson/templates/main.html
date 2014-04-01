@@ -11,22 +11,29 @@
 <iframe src="{{ url }}" class="fixed margin-top-50 width-100p height-95p"></iframe>
 <nav class="navbar navbar-default navbar-static-top fixed margin-bottom-0" role="navigation">
     <div class="container-fluid">
-        <div class="nav navbar-nav">
-            <div class="dropdown">
-                <div class="watson-sessions dropdown-toggle navbar-brand" data-toggle="dropdown">
+        <ul class="nav navbar-nav">
+            <li class="dropdown watson-sessions-dropdown">
+                <a class="watson-sessions dropdown-toggle navbar-brand" data-toggle="dropdown" data-target="#">
                     {{ state.session }}
-                </div>
-            </div>
-        </div>
-        <div class="nav navbar-nav">
-            <div class="btn-group watson-btn-group">
-                {% for type in types %}
-                    <button type="button" class="btn btn-default navbar-btn save-btn watson-btn watson-hover glyphicon glyphicon-{{ type.icon }}{% if set == type.pk %} btn-success{% endif %}" value="{{ type.name }}">
-                        <span class="hide">{{ type.name }}</span>
-                    </button>
-                {% endfor %}
-            </div>
+                </a>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav">
+        <li class="btn-group watson-btn-group">
+            {% for category, types in categories.items %}
+                <li class="dropdown watson-cat">
+                    <div class="dropdown-toggle" data-toggle="dropdown" data-target="#">
+                        <button type="button" class="watson-cat-btn btn btn-default navbar-btn save-btn {% if set.category == category %}btn-success{% endif %}">{{ category }}</button>
+                    </div>
+                    <ul class="dropdown-menu">
+                        {% for type in types %}
+                            <li><a class="watson-btn {% if set.pk == type.pk %}btn-success{% endif %}">{{ type.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </li>
             <button type="button" class="btn btn-primary navbar-btn watson-next">Next</button>
-        </div>
+        </ul>
     </div>
 </nav>
