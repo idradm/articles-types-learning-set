@@ -7,6 +7,8 @@ from watson.models import Sessions, State, ArticleTypes, SessionArticles, Articl
 
 def generate_article_set(modeladmin, request, queryset):
     pass
+
+
 generate_article_set.short_description = "Generate article set"
 
 

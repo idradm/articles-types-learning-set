@@ -1,6 +1,3 @@
-
-
-
 #s = search.WikiaSearch()
 #resp = s.query('ns:0', 0, 10, 'random_1+asc')
 #print resp['response']['docs']

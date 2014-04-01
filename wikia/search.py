@@ -2,7 +2,6 @@ import requests
 
 
 class WikiaSearch(object):
-
     select_url = None
     config = {'url': 'http://dev-search-s4:8983/solr', 'core': 'main'}
 

@@ -1,5 +1,3 @@
-
-
 class DocumentProvider(object):
     wikia_solr = None
     data = []
@@ -16,7 +14,7 @@ class DocumentProvider(object):
                 item = {
                     'wiki_id': result['wid'],
                     'page_id': result['pageid'],
-                    'title': result['title_'+result['lang']],
+                    'title': result['title_' + result['lang']],
                     'url': result['url']
                 }
                 self.data.append(item)
