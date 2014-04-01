@@ -1,4 +1,6 @@
 $(function(){
+    $('.watson-hover').hover(toggleHide, toggleHide);
+
     $('.watson-btn').click(function() {
         var that = this;
         var data = {
@@ -42,6 +44,10 @@ $(function(){
             });
         }
     });
+
+    function toggleHide(el) {
+        $(el.currentTarget).children('span').toggleClass('hide');
+    }
 
     function changeSession(e) {
         window.location.href = window.location.origin + '/watson/' + e.data;

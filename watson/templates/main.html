@@ -21,7 +21,9 @@
         <div class="nav navbar-nav">
             <div class="btn-group watson-btn-group">
                 {% for type in types %}
-                    <button type="button" class="btn btn-default navbar-btn save-btn watson-btn{% if set == type.pk %} btn-success{% endif %}" value="{{ type.name }}">{{ type.name }}</button>
+                    <button type="button" class="btn btn-default navbar-btn save-btn watson-btn watson-hover glyphicon glyphicon-{{ type.icon }}{% if set == type.pk %} btn-success{% endif %}" value="{{ type.name }}">
+                        <span class="hide">{{ type.name }}</span>
+                    </button>
                 {% endfor %}
             </div>
             <button type="button" class="btn btn-primary navbar-btn watson-next">Next</button>

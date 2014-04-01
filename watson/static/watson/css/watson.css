@@ -1,3 +1,7 @@
 .hide-labels label {
     display: none;
 }
+
+.hide {
+    display: none;
+}
