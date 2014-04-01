@@ -54,12 +54,13 @@ def main(request, session, number):
             categories[type.category].append(type)
         at = getType(state)
         t = types.get(name=at.type.name) if at else False
-        if at and (at.article.wikitext is None or at.article.html is None):
-            at.article.update()
+        sa = SessionArticles.objects.get(session=state.session, number=state.number)
+        if sa.article.wikitext is None or sa.article.html is None:
+            sa.article.update()
         return render(request, 'main.html',
                       {
                           'state': {'session': session, 'number': number},
-                          'url': at.article.url,
+                          'url': sa.article.url,
                           'categories': categories,
                           'set': t
                       }
