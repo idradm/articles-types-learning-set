@@ -1,4 +1,4 @@
-import models
+from watson import models
 from wikia import api
 
 

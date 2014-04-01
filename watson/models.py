@@ -26,7 +26,6 @@ class SessionArticles(models.Model):
 class Type(models.Model):
     category = models.CharField(max_length=50)
     name = models.CharField(max_length=100)
-    icon = models.CharField(max_length=100)
 
 
 class ArticleTypes(models.Model):

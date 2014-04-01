@@ -6,7 +6,9 @@ from watson.models import Sessions, State, ArticleTypes, SessionArticles, Articl
 
 
 def generate_article_set(modeladmin, request, queryset):
-    pass
+    for session in queryset:
+        #from here we can run data acquiring
+        print(session.pk)
 
 
 generate_article_set.short_description = "Generate article set"
