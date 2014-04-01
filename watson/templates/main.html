@@ -19,21 +19,23 @@
             </li>
         </ul>
         <ul class="nav navbar-nav">
-        <li class="btn-group watson-btn-group">
-            {% for category, types in categories.items %}
-                <li class="dropdown watson-cat">
-                    <div class="dropdown-toggle" data-toggle="dropdown" data-target="#">
-                        <button type="button" class="watson-cat-btn btn btn-default navbar-btn save-btn {% if set.category == category %}btn-success{% endif %}">{{ category }}</button>
-                    </div>
-                    <ul class="dropdown-menu">
-                        {% for type in types %}
-                            <li><a class="watson-btn {% if set.pk == type.pk %}btn-success{% endif %}">{{ type.name }}</a></li>
-                        {% endfor %}
-                    </ul>
-                </li>
-            {% endfor %}
-        </li>
-            <button type="button" class="btn btn-primary navbar-btn watson-next">Next</button>
+            <li class="btn-group watson-btn-group">
+                {% for category, types in categories.items %}
+                    <li class="dropdown watson-cat">
+                        <div class="dropdown-toggle" data-toggle="dropdown" data-target="#">
+                            <button type="button" class="watson-cat-btn btn btn-default navbar-btn save-btn {% if set.category == category %}btn-success{% endif %}">{{ category }}</button>
+                        </div>
+                        <ul class="dropdown-menu">
+                            {% for type in types %}
+                                <li><a class="watson-btn {% if set.pk == type.pk %}btn-success{% endif %}">{{ type.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+            </li>
         </ul>
+        <li class="nav navbar-nav">
+            <button type="button" class="btn btn-primary navbar-btn watson-next">Next</button>
+        </li>
     </div>
 </nav>
