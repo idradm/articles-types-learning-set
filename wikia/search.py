@@ -19,6 +19,7 @@ class WikiaSearch(object):
         return "&".join(final_url)
 
     def query(self, query, start=0, rows=10, sort=''):
+
         url = self.__build_url(query, start, rows, sort)
         try:
             resp = requests.get(url)

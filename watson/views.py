@@ -1,5 +1,6 @@
 import json
 import urllib
+import documents
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login
@@ -112,3 +113,11 @@ def getType(state):
         return ArticleTypes.objects.get(user=state.user, article=sa.article)
     except ArticleTypes.DoesNotExist:
         return False
+
+def sessions_import_sites(request, id):
+    d = documents.DocumentsGenerator()
+    d.generate_session(int(id))
+    from django.db import connection
+    #for q in connection.queries:
+    #    print q
+    return HttpResponse("TEST %d" % int(id))
