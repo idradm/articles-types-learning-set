@@ -1,5 +1,6 @@
 import json
 import urllib
+from django.utils.functional import empty
 import documents
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -55,7 +56,7 @@ def main(request, session, number):
         at = getType(state)
         t = types.get(name=at.type.name) if at else False
         sa = SessionArticles.objects.get(session=state.session, number=state.number)
-        if sa.article.wikitext is None or sa.article.html is None:
+        if not sa.article.wikitext or not sa.article.html:
             sa.article.update()
         return render(request, 'main.html',
                       {
