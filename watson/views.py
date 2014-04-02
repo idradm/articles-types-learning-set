@@ -1,11 +1,13 @@
 import json
 import urllib
-import documents
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login
+from watson import documents
+from watson.status import Status
 from watson.forms.login import WatsonLoginForm
-from watson.models import Sessions, State, ArticleTypes, SessionArticles, Type
+from watson.models import Sessions, State, Type
+from watson.watson_exception import WatsonException
 
 # Create your views here.
 def login(request):
@@ -25,44 +27,21 @@ def login(request):
 
 def main(request, session, number):
     if request.user.is_authenticated():
+        status = Status(user=request.user)
         try:
-            state = State.objects.get(user=request.user)
-        except State.DoesNotExist:
-            state = State(user=request.user)
+            status.set(session, number)
+        except WatsonException as e:
+            return HttpResponse(e.args[0], status=400)
 
-        if session is None:
-            if state.session_id is not None:
-                state = State.objects.get(user=request.user)
-                session = state.session.name
-                number = state.number
-            else:
-                sessions = Sessions.objects.all()[:1]
-                session = sessions[0].name
-        if number is None:
-            number = 0
-
-        state.updateState(session, number)
         if request.method == 'POST':
-            return save(request, state)
-
-        # get types and set current one
-        types = Type.objects.all()
-        categories = {}
-        for type in types:
-            if type.category not in categories.keys():
-                categories[type.category] = []
-            categories[type.category].append(type)
-        at = getType(state)
-        t = types.get(name=at.type.name) if at else False
-        sa = SessionArticles.objects.get(session=state.session, number=state.number)
-        if not sa.article.wikitext or not sa.article.html:
-            sa.article.update()
+            status.set_type(request.POST['type'])
+            return HttpResponse(status=200)
         return render(request, 'main.html',
                       {
-                          'state': {'session': session, 'number': number},
-                          'url': sa.article.url,
-                          'categories': categories,
-                          'set': t
+                          'state': {'session': status.get_current_session_name(), 'number': status.get_current_number()},
+                          'url': status.get_url(),
+                          'categories': Type.get_categories(),
+                          'set': status.get_current_type()
                       }
                       )
     else:
@@ -92,28 +71,6 @@ def next(request):
         return HttpResponse(output, content_type="application/json")
     else:
         raise HttpResponse(status=401)
-
-
-def save(request, state):
-    sa = SessionArticles.objects.get(session=state.session, number=state.number)
-    try:
-        t = ArticleTypes.objects.get(user=request.user, article=sa.article)
-    except ArticleTypes.DoesNotExist:
-        t = ArticleTypes(user=request.user, article=sa.article)
-    t.type = Type.objects.get(name=request.POST['type'])
-    t.save()
-    return HttpResponse(status=200)
-
-
-def getType(state):
-    try:
-        sa = SessionArticles.objects.get(session=state.session, number=state.number)
-    except SessionArticles.DoesNotExist:
-        return False
-    try:
-        return ArticleTypes.objects.get(user=state.user, article=sa.article)
-    except ArticleTypes.DoesNotExist:
-        return False
 
 def sessions_import_sites(request, id):
     d = documents.DocumentsGenerator()

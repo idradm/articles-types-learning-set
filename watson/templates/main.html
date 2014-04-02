@@ -23,11 +23,11 @@
                 {% for category, types in categories.items %}
                     <li class="dropdown watson-cat">
                         <div class="dropdown-toggle" data-toggle="dropdown" data-target="#">
-                            <button type="button" class="watson-cat-btn btn btn-default navbar-btn save-btn {% if set.category == category %}btn-success{% endif %}">{{ category }}</button>
+                            <button type="button" class="watson-cat-btn btn btn-default navbar-btn save-btn {% if set.type.category == category %}btn-success{% endif %}">{{ category }}</button>
                         </div>
                         <ul class="dropdown-menu">
                             {% for type in types %}
-                                <li><a class="watson-btn {% if set.pk == type.pk %}btn-success{% endif %}">{{ type.name }}</a></li>
+                                <li><a class="watson-btn {% if set.type.name == type %}btn-success{% endif %}">{{ type }}</a></li>
                             {% endfor %}
                         </ul>
                     </li>

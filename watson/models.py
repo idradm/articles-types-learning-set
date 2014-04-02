@@ -45,6 +45,15 @@ class Type(models.Model):
     category = models.CharField(max_length=50)
     name = models.CharField(max_length=100)
 
+    @staticmethod
+    def get_categories():
+        categories = {}
+        for type in Type.objects.all():
+            if type.category not in categories.keys():
+                categories[str(type.category)] = []
+            categories[type.category].append(str(type.name))
+        return categories
+
     def __unicode__(self):
         return "%s:%s" % (self.category, self.name)
 
@@ -60,8 +69,3 @@ class State(models.Model):
     session = models.ForeignKey(Sessions)
     user = models.ForeignKey(auth.User)
     number = models.IntegerField()
-
-    def updateState(self, session, number):
-        self.session = Sessions.objects.get(name=session)
-        self.number = number
-        self.save()
