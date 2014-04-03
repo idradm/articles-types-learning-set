@@ -2,7 +2,7 @@ import requests
 from django.db import models
 from django.contrib.auth import models as auth
 from concurrent.futures import ThreadPoolExecutor
-
+from watson import documents
 
 # Create your models here..
 class ArticleData(models.Model):
@@ -34,6 +34,12 @@ class Sessions(models.Model):
     name = models.CharField(max_length=255)
     created = models.DateTimeField(auto_now_add=True)
     size = models.IntegerField()
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        super(Sessions, self).save(force_insert, force_update, using, update_fields)
+        d = documents.DocumentsGenerator()
+        d.generate_session(int(self.pk))
+        print self.pk
 
 
 class State(models.Model):

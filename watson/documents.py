@@ -1,4 +1,4 @@
-from watson import models
+import models
 from wikia import api, search
 
 

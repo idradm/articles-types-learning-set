@@ -1,16 +1,14 @@
 from django.contrib import admin
 from watson.models import Sessions, State, ArticleTypes, SessionArticles, ArticleData, Type
-
+from watson import documents
 
 # Register your models here.
 
 
 def generate_article_set(modeladmin, request, queryset):
     for session in queryset:
-        #from here we can run data acquiring
-        print(session.pk)
-
-
+        d = documents.DocumentsGenerator()
+        d.generate_session(int(session.pk))
 generate_article_set.short_description = "Generate article set"
 
 
@@ -19,6 +17,7 @@ class SessionAdmin(admin.ModelAdmin):
     actions = [generate_article_set]
 
     save_plus_action = [generate_article_set]
+
 
 
 admin.site.register(Sessions, SessionAdmin)

@@ -1,7 +1,7 @@
 from random import randint
 
+
 class DocumentProvider(object):
-    wikia_solr = None
 
     def __init__(self, wikia_solr):
         self.data = []
