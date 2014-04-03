@@ -77,26 +77,32 @@ class ArticleType(models.Model):
     article = models.ForeignKey(ArticleData)
     user = models.ForeignKey(auth.User)
     changed = models.DateTimeField(auto_now=True)
-    type = models.ForeignKey(Type)
+    type = models.ForeignKey(Type, null=True)
 
 
 class Quality(models.Model):
     name = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return self.name
 
 
 class ArticleQuality(models.Model):
     article = models.ForeignKey(ArticleData)
     user = models.ForeignKey(auth.User)
     changed = models.DateTimeField(auto_now=True)
-    quality = models.ForeignKey(Quality)
+    quality = models.ForeignKey(Quality, null=True)
 
 
 class Kind(models.Model):
     name = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return self.name
 
 
 class ArticleKind(models.Model):
     article = models.ForeignKey(ArticleData)
     user = models.ForeignKey(auth.User)
     changed = models.DateTimeField(auto_now=True)
-    kind = models.ForeignKey(Kind)
+    kind = models.ForeignKey(Kind, null=True)
