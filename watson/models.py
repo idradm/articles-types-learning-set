@@ -7,14 +7,14 @@ from watson import documents
 
 # Create your models here..
 class ArticleData(models.Model):
-    wikiId = models.IntegerField()
-    pageId = models.IntegerField()
+    wiki_id = models.IntegerField()
+    page_id = models.IntegerField()
     title = models.CharField(max_length=255)
     url = models.CharField(max_length=255)
     wikitext = models.TextField()
     html = models.TextField()
 
-    def getData(self):
+    def get_data(self):
         wtr = requests.get(self.url + '?action=raw')
         if wtr.status_code == 200:
             self.wikitext = wtr.text
@@ -25,10 +25,10 @@ class ArticleData(models.Model):
 
     def update(self):
         executor = ThreadPoolExecutor(max_workers=1)
-        executor.submit(self.getData())
+        executor.submit(self.get_data())
 
     def __unicode__(self):
-        return "%d_%d" % (int(self.wikiId), int(self.pageId))
+        return "%d_%d" % (int(self.wiki_id), int(self.page_id))
 
 
 class Sessions(models.Model):
@@ -42,7 +42,6 @@ class Sessions(models.Model):
         super(Sessions, self).save(force_insert, force_update, using, update_fields)
         d = documents.DocumentsGenerator()
         d.generate_session(int(self.pk))
-        print self.pk
 
 
 class State(models.Model):
