@@ -6,11 +6,32 @@ class DocumentProvider(object):
     def __init__(self, wikia_solr):
         self.data = []
         self.wikia_solr = wikia_solr
+        self.hub_filter = None
+        self.article_quality_filter = None
+
+    def set_article_quality_filter(self, quality):
+
+        self.article_quality_filter = 'article_quality_i:%d' % quality
+
+    def set_hub_filter(self, hub):
+        if ',' in hub:
+            hubs = ('hub:' + hub for hub in hub.split(','))
+            self.hub_filter = "(" + " OR ".join(hubs) + ")"
+        else:
+            self.hub_filter = 'hub:'+hub
 
     def generate_new_sample(self, size=10, random=randint(1, 5000)):
         query = 'ns:0 AND lang:en'
         sort = 'random_%d asc' % random
-        results = self.wikia_solr.query(query, 0, size, sort)
+        filter_query = 'is_main_page:false'
+
+        if self.article_quality_filter is not None:
+            filter_query += " AND "+self.article_quality_filter
+
+        if self.hub_filter is not None:
+            filter_query += " AND "+self.hub_filter
+
+        results = self.wikia_solr.query(query, filter_query, 0, size, sort)
 
         if results is not None:
             for result in results['response']['docs']:

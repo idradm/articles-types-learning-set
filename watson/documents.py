@@ -3,13 +3,13 @@ from wikia import api, search
 
 
 class DocumentsGenerator(object):
-    api = None
 
     def __init__(self):
         super(DocumentsGenerator, self).__init__()
         self.api = api.DocumentProvider(search.WikiaSearch())
 
-    def __check_session(self, session_collection):
+    @staticmethod
+    def __check_session(session_collection):
         if len(session_collection) == 0:
             return False
 
@@ -19,7 +19,8 @@ class DocumentsGenerator(object):
 
         return True
 
-    def create_document(self, data):
+    @staticmethod
+    def create_document(data):
         articles = models.ArticleData.objects.filter(pageId=data['page_id'], wikiId=data['wiki_id'])
         if len(articles) == 0:
             article = models.ArticleData(wikiId=data['wiki_id'],
@@ -31,7 +32,8 @@ class DocumentsGenerator(object):
         else:
             return articles[0]
 
-    def save_article_to_session(self, session_id, number, article_model):
+    @staticmethod
+    def save_article_to_session(session_id, number, article_model):
         ats_model = models.SessionArticles(session_id=session_id,
                                            article_id=article_model.id,
                                            number=number)
