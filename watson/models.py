@@ -123,6 +123,12 @@ class ArticleType(models.Model):
     changed = models.DateTimeField(auto_now=True)
     type = models.ForeignKey(Type, blank=True, null=True)
 
+    def get_value(self):
+        return self.type
+
+    def set_value(self, value):
+        self.type = value
+        self.save()
 
 class Quality(models.Model):
     name = models.CharField(max_length=100)
@@ -137,6 +143,12 @@ class ArticleQuality(models.Model):
     changed = models.DateTimeField(auto_now=True)
     quality = models.ForeignKey(Quality, blank=True, null=True)
 
+    def get_value(self):
+        return self.quality
+
+    def set_value(self, value):
+        self.quality = value
+        self.save()
 
 class Kind(models.Model):
     name = models.CharField(max_length=100)
@@ -150,3 +162,10 @@ class ArticleKind(models.Model):
     user = models.ForeignKey(auth.User)
     changed = models.DateTimeField(auto_now=True)
     kind = models.ForeignKey(Kind, blank=True, null=True)
+
+    def get_value(self):
+        return self.kind
+
+    def set_value(self, value):
+        self.kind = value
+        self.save()
