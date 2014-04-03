@@ -35,6 +35,14 @@ class Status():
     def get_current_number(self):
         return self.state.number
 
+    def get_next(self):
+        if self.state.session.size > self.state.number + 1:
+            return self.state.number + 1
+        return 0
+
+    # def get_next_empty(self):
+
+
     def set_metric(self, metric, value):
         return self.metrics[metric].set(value)
 

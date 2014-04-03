@@ -63,13 +63,8 @@ def sessions(request):
 
 def next(request):
     if request.user.is_authenticated():
-        state = State.objects.get(user=request.user)
-        if state.session.size > state.number + 1:
-            number = state.number + 1
-        else:
-            number = 0
-        output = json.dumps({"path": '/watson/%s/%d' % (urllib.quote(state.session.name), number)})
+        status = Status(request.user)
+        output = json.dumps({"path": '/watson/%s/%d' % (urllib.quote(status.get_current_session_name()), status.get_next())})
         return HttpResponse(output, content_type="application/json")
     else:
         raise HttpResponse(status=401)
-
