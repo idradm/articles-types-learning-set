@@ -3,7 +3,6 @@ import urllib
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login
-from watson import documents
 from watson.status import Status
 from watson.forms.login import WatsonLoginForm
 from watson.models import Session, State, Type, Quality, Kind
@@ -74,10 +73,3 @@ def next(request):
     else:
         raise HttpResponse(status=401)
 
-def sessions_import_sites(request, id):
-    d = documents.DocumentsGenerator()
-    d.generate_session(int(id))
-    from django.db import connection
-    #for q in connection.queries:
-    #    print q
-    return HttpResponse("TEST %d" % int(id))

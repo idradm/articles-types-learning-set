@@ -2,10 +2,9 @@ import requests
 from django.db import models
 from django.contrib.auth import models as auth
 from concurrent.futures import ThreadPoolExecutor
-from watson import documents
+from wikia import api, search
 
 
-# Create your models here..
 class ArticleData(models.Model):
     wiki_id = models.IntegerField()
     page_id = models.IntegerField()
@@ -27,6 +26,19 @@ class ArticleData(models.Model):
         executor = ThreadPoolExecutor(max_workers=1)
         executor.submit(self.get_data())
 
+    @staticmethod
+    def create_from_data(data):
+        articles = ArticleData.objects.filter(page_id=data['page_id'], wiki_id=data['wiki_id'])
+        if len(articles) == 0:
+            article = ArticleData(wiki_id=data['wiki_id'],
+                                  page_id=data['page_id'],
+                                  title=data['title'],
+                                  url=data['url'])
+            article.save()
+            return article
+        else:
+            return articles[0]
+
     def __unicode__(self):
         return "%d_%d" % (int(self.wiki_id), int(self.page_id))
 
@@ -40,8 +52,33 @@ class Session(models.Model):
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         super(Session, self).save(force_insert, force_update, using, update_fields)
-        d = documents.DocumentsGenerator()
-        d.generate_session(int(self.pk))
+        self.generate_session_article_set(int(self.pk))
+
+    @staticmethod
+    def __check_session(session_collection):
+        if len(session_collection) == 0:
+            return False
+
+        cnt = SessionArticle.objects.filter(session_id=session_collection[0].id).count()
+        if cnt > 0:
+            print SessionArticle.objects.filter(session_id=session_collection[0].id).delete()
+
+        return True
+
+    def generate_session_article_set(self, session_id):
+        session = Session.objects.filter(id=session_id)
+        if self.__check_session(session) is False:
+            return False
+
+        session_size = session[0].size
+        api_access = api.DocumentProvider(search.WikiaSearch())
+        documents_col = api_access.generate_new_sample(session_size, session_id)
+
+        num = 0
+        for doc in documents_col:
+            article_model = ArticleData.create_from_data(doc)
+            SessionArticle.save_article_to_session(session_id, num, article_model.id)
+            num += 1
 
 
 class State(models.Model):
@@ -54,6 +91,13 @@ class SessionArticle(models.Model):
     session = models.ForeignKey(Session)
     article = models.ForeignKey(ArticleData)
     number = models.IntegerField()
+
+    @staticmethod
+    def save_article_to_session(session_id, number, article_id):
+        ats_model = SessionArticle(session_id=session_id,
+                                   article_id=article_id,
+                                   number=number)
+        ats_model.save()
 
 
 class Type(models.Model):
