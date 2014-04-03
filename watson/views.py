@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login as auth_login
 from watson import documents
 from watson.status import Status
 from watson.forms.login import WatsonLoginForm
-from watson.models import Sessions, State, Type, Quality, Kind
+from watson.models import Session, State, Type, Quality, Kind
 from watson.watson_exception import WatsonException
 
 # Create your views here.
@@ -53,7 +53,7 @@ def main(request, session, number):
 def sessions(request):
     if request.user.is_authenticated():
         result = []
-        data = Sessions.objects.all()
+        data = Session.objects.all()
         for item in data:
             result.append({'name': item.name})
         output = json.dumps(result)

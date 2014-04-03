@@ -1,4 +1,4 @@
-from watson.models import State, Sessions, SessionArticles, ArticleTypes, Type, ArticleQuality, Quality, ArticleKind, Kind
+from watson.models import State, Session, SessionArticle, ArticleType, Type, ArticleQuality, Quality, ArticleKind, Kind
 from watson.watson_exception import WatsonException
 
 
@@ -36,8 +36,8 @@ class Status():
 
     def get_current_type(self):
         try:
-            return ArticleTypes.objects.get(article=self.__get_session_article().article, user=self.state.user)
-        except ArticleTypes.DoesNotExist:
+            return ArticleType.objects.get(article=self.__get_session_article().article, user=self.state.user)
+        except ArticleType.DoesNotExist:
             return False
 
     def get_current_quality(self):
@@ -65,7 +65,7 @@ class Status():
     def set_type(self, type):
         article_type = self.get_current_type()
         if not article_type:
-            article_type = ArticleTypes(article=self.__get_session_article().article, user=self.state.user)
+            article_type = ArticleType(article=self.__get_session_article().article, user=self.state.user)
         article_type.type = self.__get_type_model(type)
         article_type.save()
 
@@ -91,8 +91,10 @@ class Status():
             if self.state.session_id is not None:
                 return self.state.session
             else:
-                sessions = Sessions.objects.all()[:1]
-                return sessions[0]
+                sessions = Session.objects.all()[:1]
+                if sessions:
+                    return sessions[0]
+                raise WatsonException("No sessions created")
         else:
             obj = self.__load_session(session)
             if obj:
@@ -101,8 +103,8 @@ class Status():
 
     def __get_session_article(self):
         try:
-            return SessionArticles.objects.get(session=self.state.session, number=self.state.number)
-        except SessionArticles.DoesNotExist:
+            return SessionArticle.objects.get(session=self.state.session, number=self.state.number)
+        except SessionArticle.DoesNotExist:
             raise WatsonException("Something went terribly wrong")
 
     def __load_article_data(self):
@@ -125,8 +127,8 @@ class Status():
     @staticmethod
     def __load_session(name):
         try:
-            return Sessions.objects.get(name=name)
-        except Sessions.DoesNotExist:
+            return Session.objects.get(name=name)
+        except Session.DoesNotExist:
             return False
 
     @staticmethod

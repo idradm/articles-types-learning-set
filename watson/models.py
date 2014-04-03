@@ -31,7 +31,7 @@ class ArticleData(models.Model):
         return "%d_%d" % (int(self.wiki_id), int(self.page_id))
 
 
-class Sessions(models.Model):
+class Session(models.Model):
     name = models.CharField(max_length=255)
     created = models.DateTimeField(auto_now_add=True)
     size = models.IntegerField()
@@ -39,19 +39,19 @@ class Sessions(models.Model):
     hub_filter = models.CharField(max_length=255)
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        super(Sessions, self).save(force_insert, force_update, using, update_fields)
+        super(Session, self).save(force_insert, force_update, using, update_fields)
         d = documents.DocumentsGenerator()
         d.generate_session(int(self.pk))
 
 
 class State(models.Model):
-    session = models.ForeignKey(Sessions)
+    session = models.ForeignKey(Session)
     user = models.ForeignKey(auth.User)
     number = models.IntegerField()
 
 
-class SessionArticles(models.Model):
-    session = models.ForeignKey(Sessions)
+class SessionArticle(models.Model):
+    session = models.ForeignKey(Session)
     article = models.ForeignKey(ArticleData)
     number = models.IntegerField()
 
@@ -73,7 +73,7 @@ class Type(models.Model):
         return "%s:%s" % (self.category, self.name)
 
 
-class ArticleTypes(models.Model):
+class ArticleType(models.Model):
     article = models.ForeignKey(ArticleData)
     user = models.ForeignKey(auth.User)
     changed = models.DateTimeField(auto_now=True)
