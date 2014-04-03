@@ -40,7 +40,7 @@ def main(request, session, number):
                       {
                           'state': {'session': status.get_current_session_name(), 'number': status.get_current_number()},
                           'url': status.get_url(),
-                          'categories': Type.get_categories(),
+                          'categories': Type.get_in_categories(),
                           'set': status.get_current_type()
                       }
                       )

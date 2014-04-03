@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth import models as auth
 from concurrent.futures import ThreadPoolExecutor
 
+
 # Create your models here..
 class ArticleData(models.Model):
     wikiId = models.IntegerField()
@@ -35,6 +36,12 @@ class Sessions(models.Model):
     size = models.IntegerField()
 
 
+class State(models.Model):
+    session = models.ForeignKey(Sessions)
+    user = models.ForeignKey(auth.User)
+    number = models.IntegerField()
+
+
 class SessionArticles(models.Model):
     session = models.ForeignKey(Sessions)
     article = models.ForeignKey(ArticleData)
@@ -46,7 +53,7 @@ class Type(models.Model):
     name = models.CharField(max_length=100)
 
     @staticmethod
-    def get_categories():
+    def get_in_categories():
         categories = {}
         for type in Type.objects.all():
             if type.category not in categories.keys():
@@ -65,7 +72,23 @@ class ArticleTypes(models.Model):
     type = models.ForeignKey(Type)
 
 
-class State(models.Model):
-    session = models.ForeignKey(Sessions)
+class Quality(models.Model):
+    name = models.CharField(max_length=100)
+
+
+class ArticleQuality(models.Model):
+    article = models.ForeignKey(ArticleData)
     user = models.ForeignKey(auth.User)
-    number = models.IntegerField()
+    changed = models.DateTimeField(auto_now=True)
+    quality = models.ForeignKey(Quality)
+
+
+class Kind(models.Model):
+    name = models.CharField(max_length=100)
+
+
+class ArticleKind(models.Model):
+    article = models.ForeignKey(ArticleData)
+    user = models.ForeignKey(auth.User)
+    changed = models.DateTimeField(auto_now=True)
+    kind = models.ForeignKey(Kind)

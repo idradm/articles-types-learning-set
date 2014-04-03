@@ -6,10 +6,6 @@
     display: none;
 }
 
-.fixed {
-    position: fixed;
-}
-
 .margin-bottom-0 {
     margin-bottom: 0;
 }
@@ -24,4 +20,23 @@
 
 .height-95p {
     height: 95%;
+}
+
+.blue-background {
+    background-color: #5BC0DE;
+}
+
+.yellow-background {
+    background-color: #FFD063;
+}
+
+.salmon-background {
+    background-color: #FF7963;
+}
+
+.nav.divider {
+    height: 40px;
+    margin: 0 9px;
+    border-left: 1px solid #f2f2f2;
+    border-right: 1px solid #ffffff;
 }

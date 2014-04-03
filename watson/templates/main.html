@@ -8,8 +8,8 @@
 <div class="token">
     {% csrf_token %}
 </div>
-<iframe src="{{ url }}" class="fixed margin-top-50 width-100p height-95p"></iframe>
-<nav class="navbar navbar-default navbar-static-top fixed margin-bottom-0" role="navigation">
+<iframe src="{{ url }}" class="margin-top-50 width-100p height-95p"></iframe>
+<nav class="navbar navbar-default navbar-fixed-top margin-bottom-0" role="navigation">
     <div class="container-fluid">
         <ul class="nav navbar-nav">
             <li class="dropdown watson-sessions-dropdown">
@@ -18,22 +18,16 @@
                 </a>
             </li>
         </ul>
-        <ul class="nav navbar-nav">
-            <li class="btn-group watson-btn-group">
-                {% for category, types in categories.items %}
-                    <li class="dropdown watson-cat">
-                        <div class="dropdown-toggle" data-toggle="dropdown" data-target="#">
-                            <button type="button" class="watson-cat-btn btn btn-default navbar-btn save-btn {% if set.type.category == category %}btn-success{% endif %}">{{ category }}</button>
-                        </div>
-                        <ul class="dropdown-menu">
-                            {% for type in types %}
-                                <li><a class="watson-btn {% if set.type.name == type %}btn-success{% endif %}">{{ type }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                {% endfor %}
-            </li>
+        <ul class="nav navbar-nav blue-background">
+            {% include "types.html" %}
         </ul>
+        <ul class="nav navbar-nav yellow-background">
+            {% include "quality.html" %}
+        </ul>
+        <ul class="nav navbar-nav salmon-background">
+            {% include "kinds.html" %}
+        </ul>
+        <li class="nav navbar-nav divider"/>
         <li class="nav navbar-nav">
             <button type="button" class="btn btn-primary navbar-btn watson-next">Next</button>
         </li>
