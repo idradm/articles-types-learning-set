@@ -40,9 +40,6 @@ class Status():
             return self.state.number + 1
         return 0
 
-    # def get_next_empty(self):
-
-
     def set_metric(self, metric, value):
         return self.metrics[metric].set(value)
 
