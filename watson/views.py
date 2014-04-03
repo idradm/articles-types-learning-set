@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login as auth_login
 from watson import documents
 from watson.status import Status
 from watson.forms.login import WatsonLoginForm
-from watson.models import Sessions, State, Type
+from watson.models import Sessions, State, Type, Quality, Kind
 from watson.watson_exception import WatsonException
 
 # Create your views here.
@@ -34,14 +34,16 @@ def main(request, session, number):
             return HttpResponse(e.args[0], status=400)
 
         if request.method == 'POST':
-            status.set_type(request.POST['type'])
+            status.set_metric(request.POST['metric'], request.POST['type'])
             return HttpResponse(status=200)
         return render(request, 'main.html',
                       {
                           'state': {'session': status.get_current_session_name(), 'number': status.get_current_number()},
                           'url': status.get_url(),
                           'categories': Type.get_in_categories(),
-                          'set': status.get_current_type()
+                          'quality_levels': Quality.objects.all(),
+                          'kinds': Kind.objects.all(),
+                          'set': status.get_current()
                       }
                       )
     else:

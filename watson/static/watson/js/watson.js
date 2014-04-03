@@ -5,16 +5,18 @@ $(function(){
         var that = this;
         var data = {
             "csrfmiddlewaretoken": $('.token input').val(),
-            "type": $(this).text()
+            "type": $(this).text(),
+            "metric": $(this).data('metric')
         };
         $.ajax({
             url: window.location.href,
             type: "POST",
             data: data
         }).success(function(e) {
-            $('.watson-cat').find('.btn-success').removeClass('btn-success');
+            $parent = $('.watson-metric').has(that);
+            $parent.find('.btn-success').removeClass('btn-success');
             $(that).addClass('btn-success');
-            $('.watson-cat').has(that).find('.watson-cat-btn').addClass('btn-success');
+            $parent.find('.watson-cat').has(that).children('button').addClass('btn-success');
         });
     });
 
