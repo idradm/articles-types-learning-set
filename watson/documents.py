@@ -13,18 +13,18 @@ class DocumentsGenerator(object):
         if len(session_collection) == 0:
             return False
 
-        cnt = models.SessionArticles.objects.filter(session_id=session_collection[0].id).count()
+        cnt = models.SessionArticle.objects.filter(session_id=session_collection[0].id).count()
         if cnt > 0:
-            print models.SessionArticles.objects.filter(session_id=session_collection[0].id).delete()
+            print models.SessionArticle.objects.filter(session_id=session_collection[0].id).delete()
 
         return True
 
     @staticmethod
     def create_document(data):
-        articles = models.ArticleData.objects.filter(pageId=data['page_id'], wikiId=data['wiki_id'])
+        articles = models.ArticleData.objects.filter(page_id=data['page_id'], wiki_id=data['wiki_id'])
         if len(articles) == 0:
-            article = models.ArticleData(wikiId=data['wiki_id'],
-                                         pageId=data['page_id'],
+            article = models.ArticleData(wiki_id=data['wiki_id'],
+                                         page_id=data['page_id'],
                                          title=data['title'],
                                          url=data['url'])
             article.save()
@@ -34,13 +34,13 @@ class DocumentsGenerator(object):
 
     @staticmethod
     def save_article_to_session(session_id, number, article_model):
-        ats_model = models.SessionArticles(session_id=session_id,
+        ats_model = models.SessionArticle(session_id=session_id,
                                            article_id=article_model.id,
                                            number=number)
         ats_model.save()
 
     def generate_session(self, session_id):
-        session = models.Sessions.objects.filter(id=session_id)
+        session = models.Session.objects.filter(id=session_id)
         if self.__check_session(session) is False:
             return False
 
