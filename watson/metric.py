@@ -13,7 +13,7 @@ class Metric():
         current = self.get_current()
         if not current:
             current = self.article_model(article=self.session_article.article, user=self.user)
-        current.set_value(self.__get_model(value))
+        return current.set_value(self.__get_model(value))
 
     def __get_model(self, type):
         return self.model.objects.get(name=type)

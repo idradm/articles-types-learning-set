@@ -33,8 +33,8 @@ def main(request, session, number):
             return HttpResponse(e.__unicode__(), status=400)
 
         if request.method == 'POST':
-            status.set_metric(request.POST['metric'], request.POST['type'])
-            return HttpResponse(status=200)
+            res = status.set_metric(request.POST['metric'], request.POST['type'])
+            return HttpResponse(res, status=200)
         return render(request, 'main.html',
                       {
                           'state': {'session': status.get_current_session_name(), 'number': status.get_current_number()},

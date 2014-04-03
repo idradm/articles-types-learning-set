@@ -127,8 +127,12 @@ class ArticleType(models.Model):
         return self.type
 
     def set_value(self, value):
-        self.type = value
+        if self.type == value:
+            self.type = None
+        else:
+            self.type = value
         self.save()
+        return self.type
 
 class Quality(models.Model):
     name = models.CharField(max_length=100)
@@ -147,8 +151,12 @@ class ArticleQuality(models.Model):
         return self.quality
 
     def set_value(self, value):
-        self.quality = value
+        if self.quality == value:
+            self.quality = None
+        else:
+            self.quality = value
         self.save()
+        return self.quality
 
 class Kind(models.Model):
     name = models.CharField(max_length=100)
@@ -167,5 +175,9 @@ class ArticleKind(models.Model):
         return self.kind
 
     def set_value(self, value):
-        self.kind = value
+        if self.kind == value:
+            self.kind = None
+        else:
+            self.kind = value
         self.save()
+        return self.kind

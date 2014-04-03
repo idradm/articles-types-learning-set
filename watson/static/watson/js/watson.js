@@ -18,8 +18,10 @@ $(function(){
         }).success(function(e) {
             $parent = $('.watson-metric').has(that);
             $parent.find('.btn-success').removeClass('btn-success');
-            $(that).addClass('btn-success');
-            $parent.find('.watson-cat').has(that).children('button').addClass('btn-success');
+            if (e != 'None') {
+                $(that).addClass('btn-success');
+                $parent.find('.watson-cat').has(that).children('button').addClass('btn-success');
+            }
         });
     });
 
