@@ -35,8 +35,8 @@ class Session(models.Model):
     name = models.CharField(max_length=255)
     created = models.DateTimeField(auto_now_add=True)
     size = models.IntegerField()
-    article_quality_filter = models.IntegerField(null=True)
-    hub_filter = models.CharField(max_length=255, null=True)
+    article_quality_filter = models.IntegerField(null=True, default=None)
+    hub_filter = models.CharField(max_length=255, null=True, default=None)
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         super(Session, self).save(force_insert, force_update, using, update_fields)
@@ -77,7 +77,7 @@ class ArticleType(models.Model):
     article = models.ForeignKey(ArticleData)
     user = models.ForeignKey(auth.User)
     changed = models.DateTimeField(auto_now=True)
-    type = models.ForeignKey(Type, null=True)
+    type = models.ForeignKey(Type, null=True, default=None)
 
 
 class Quality(models.Model):
@@ -91,7 +91,7 @@ class ArticleQuality(models.Model):
     article = models.ForeignKey(ArticleData)
     user = models.ForeignKey(auth.User)
     changed = models.DateTimeField(auto_now=True)
-    quality = models.ForeignKey(Quality, null=True)
+    quality = models.ForeignKey(Quality, null=True, default=None)
 
 
 class Kind(models.Model):
@@ -105,4 +105,4 @@ class ArticleKind(models.Model):
     article = models.ForeignKey(ArticleData)
     user = models.ForeignKey(auth.User)
     changed = models.DateTimeField(auto_now=True)
-    kind = models.ForeignKey(Kind, null=True)
+    kind = models.ForeignKey(Kind, null=True, default=None)
