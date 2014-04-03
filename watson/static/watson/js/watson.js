@@ -1,4 +1,7 @@
 $(function(){
+    setWidth();
+    $(window).resize(setWidth);
+
     $('.watson-hover').hover(toggleHide, toggleHide);
 
     $('.watson-btn').click(function() {
@@ -47,6 +50,10 @@ $(function(){
             });
         }
     });
+
+    function setWidth() {
+        $('.watson-desktop').width($(window).width() - $('.watson-mobile').width());
+    }
 
     function toggleHide(el) {
         $(el.currentTarget).children('span').toggleClass('hide');
