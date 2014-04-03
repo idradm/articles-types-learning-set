@@ -1,6 +1,6 @@
 from watson.models import State, Session, SessionArticle
 from watson.metric import Metric
-from watson.watson_exception import WatsonException
+from watson.watson_exceptions import NoSessionException, NoArticlesForSessionExistsException, OutOfRangeException, SessionDoesNotExistsException
 
 
 class Status():
@@ -54,18 +54,18 @@ class Status():
                 sessions = Session.objects.all()[:1]
                 if sessions:
                     return sessions[0]
-                raise WatsonException("No sessions created")
+                raise NoSessionException()
         else:
             obj = self.__load_session(session)
             if obj:
                 return obj
-        raise WatsonException("Session with %s name does not exists" % session)
+        raise SessionDoesNotExistsException(session)
 
     def __get_session_article(self):
         try:
             return SessionArticle.objects.get(session=self.state.session, number=self.state.number)
         except SessionArticle.DoesNotExist:
-            raise WatsonException("Something went terribly wrong")
+            raise NoArticlesForSessionExistsException(self.state.session.name)
 
     def __load_article_data(self):
         session_article = self.__get_session_article()
@@ -74,13 +74,12 @@ class Status():
 
     @staticmethod
     def __load_session(name):
-        try:
-            return Session.objects.get(name=name)
-        except Session.DoesNotExist:
-            return False
+        sessions = Session.objects.filter(name=name)
+        return sessions[0] if len(sessions) > 0 else False
 
     @staticmethod
     def __validate_number(session, number):
         if 0 <= number < session.size:
             return number
-        raise WatsonException("Number out of range (current range: 0 to %d)" % session.size)
+        size = session.size - 1
+        raise OutOfRangeException(size)

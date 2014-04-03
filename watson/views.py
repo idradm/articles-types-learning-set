@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login as auth_login
 from watson.status import Status
 from watson.forms.login import WatsonLoginForm
 from watson.models import Session, State, Type, Quality, Kind
-from watson.watson_exception import WatsonException
+from watson.watson_exceptions import WatsonException
 
 # Create your views here.
 def login(request):
@@ -30,7 +30,7 @@ def main(request, session, number):
         try:
             status.set(session, number)
         except WatsonException as e:
-            return HttpResponse(e.args[0], status=400)
+            return HttpResponse(e.__unicode__(), status=400)
 
         if request.method == 'POST':
             status.set_metric(request.POST['metric'], request.POST['type'])
