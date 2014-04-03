@@ -35,8 +35,8 @@ class Session(models.Model):
     name = models.CharField(max_length=255)
     created = models.DateTimeField(auto_now_add=True)
     size = models.IntegerField()
-    article_quality_filter = models.IntegerField()
-    hub_filter = models.CharField(max_length=255)
+    article_quality_filter = models.IntegerField(null=True)
+    hub_filter = models.CharField(max_length=255, null=True)
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         super(Session, self).save(force_insert, force_update, using, update_fields)
