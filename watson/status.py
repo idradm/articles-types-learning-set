@@ -37,7 +37,7 @@ class Status():
         return 0
 
     def set_metric(self, metric, value):
-        return self.metrics.set(metric, value)
+        return self.metrics.toggle(metric, value)
 
     def get_url(self):
         return self._get_session_article().article.url
