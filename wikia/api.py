@@ -39,7 +39,9 @@ class DocumentProvider(object):
                     'wiki_id': result['wid'],
                     'page_id': result['pageid'],
                     'title': result['title_' + result['lang']],
-                    'url': result['url']
+                    'url': result['url'],
+                    'article_quality': result['article_quality_i'] if 'article_quality_i' in result else 0,
+                    'hub': result['hub']
                 }
                 self.data.append(item)
 

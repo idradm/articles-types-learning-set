@@ -36,7 +36,7 @@ class ArticleData(models.Model):
                                   page_id=data['page_id'],
                                   title=data['title'],
                                   url=data['url'],
-                                  article_quality=data['article_quality_i'],
+                                  article_quality=data['article_quality'],
                                   hub=data['hub'])
             article.save()
             return article
