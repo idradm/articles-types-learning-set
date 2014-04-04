@@ -12,6 +12,8 @@ class ArticleData(models.Model):
     url = models.CharField(max_length=255)
     wikitext = models.TextField()
     html = models.TextField()
+    article_quality = models.IntegerField(blank=True, null=True)
+    hub = models.CharField(max_length=255, blank=True, null=True)
 
     def get_data(self):
         wtr = requests.get(self.url + '?action=raw')
@@ -33,7 +35,9 @@ class ArticleData(models.Model):
             article = ArticleData(wiki_id=data['wiki_id'],
                                   page_id=data['page_id'],
                                   title=data['title'],
-                                  url=data['url'])
+                                  url=data['url'],
+                                  article_quality=data['article_quality_i'],
+                                  hub=data['hub'])
             article.save()
             return article
         else:
@@ -72,6 +76,12 @@ class Session(models.Model):
 
         session_size = session[0].size
         api_access = api.DocumentProvider(search.WikiaSearch())
+
+        if bool(session[0].hub_filter) is not False:
+            api_access.set_hub_filter(session[0].hub_filter)
+        if bool(session[0].article_quality_filter) is not False:
+            api_access.set_article_quality_filter(session[0].article_quality_filter)
+
         documents_col = api_access.generate_new_sample(session_size, session_id)
 
         num = 0
