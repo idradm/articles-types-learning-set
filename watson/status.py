@@ -15,12 +15,12 @@ class Status():
 
     def set(self, session, number):
         number = int(max(number, 0))
-        session = self.__get_session(session)
+        session = self._get_session(session)
         self.state.session = session
-        self.state.number = self.__validate_number(session, number)
+        self.state.number = self._validate_number(session, number)
         self.state.save()
-        self.__load_metrics()
-        self.__load_article_data()
+        self._load_metrics()
+        self._load_article_data()
 
     def get_current(self):
         return self.metrics.get_current()
@@ -40,12 +40,12 @@ class Status():
         return self.metrics.set(metric, value)
 
     def get_url(self):
-        return self.__get_session_article().article.url
+        return self._get_session_article().article.url
 
-    def __load_metrics(self):
-        self.metrics = Metrics(self.__get_session_article(), self.state.user)
+    def _load_metrics(self):
+        self.metrics = Metrics(self._get_session_article(), self.state.user)
 
-    def __get_session(self, session):
+    def _get_session(self, session):
         if session is None:
             if self.state.session_id is not None:
                 return self.state.session
@@ -55,29 +55,29 @@ class Status():
                     return sessions[0]
                 raise NoSessionException()
         else:
-            obj = self.__load_session(session)
+            obj = self._load_session(session)
             if obj:
                 return obj
         raise SessionDoesNotExistsException(session)
 
-    def __get_session_article(self):
+    def _get_session_article(self):
         try:
             return SessionArticle.objects.get(session=self.state.session, number=self.state.number)
         except SessionArticle.DoesNotExist:
             raise NoArticleForSessionExistsException(self.state.session.name)
 
-    def __load_article_data(self):
-        session_article = self.__get_session_article()
+    def _load_article_data(self):
+        session_article = self._get_session_article()
         if not session_article.article.wikitext or not session_article.article.html:
             session_article.article.update()
 
     @staticmethod
-    def __load_session(name):
+    def _load_session(name):
         sessions = Session.objects.filter(name=name)
         return sessions[0] if len(sessions) > 0 else False
 
     @staticmethod
-    def __validate_number(session, number):
+    def _validate_number(session, number):
         if 0 <= number < session.size:
             return number
         size = session.size - 1
