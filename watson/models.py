@@ -117,46 +117,12 @@ class Type(models.Model):
         return "%s:%s" % (self.category, self.name)
 
 
-class ArticleType(models.Model):
-    article = models.ForeignKey(ArticleData)
-    user = models.ForeignKey(auth.User)
-    changed = models.DateTimeField(auto_now=True)
-    type = models.ForeignKey(Type, blank=True, null=True)
-
-    def get_value(self):
-        return self.type
-
-    def set_value(self, value):
-        if self.type == value:
-            self.type = None
-        else:
-            self.type = value
-        self.save()
-        return self.type
-
 class Quality(models.Model):
     name = models.CharField(max_length=100)
 
     def __unicode__(self):
         return self.name
 
-
-class ArticleQuality(models.Model):
-    article = models.ForeignKey(ArticleData)
-    user = models.ForeignKey(auth.User)
-    changed = models.DateTimeField(auto_now=True)
-    quality = models.ForeignKey(Quality, blank=True, null=True)
-
-    def get_value(self):
-        return self.quality
-
-    def set_value(self, value):
-        if self.quality == value:
-            self.quality = None
-        else:
-            self.quality = value
-        self.save()
-        return self.quality
 
 class Kind(models.Model):
     name = models.CharField(max_length=100)
@@ -165,19 +131,10 @@ class Kind(models.Model):
         return self.name
 
 
-class ArticleKind(models.Model):
+class ArticleMetrics(models.Model):
     article = models.ForeignKey(ArticleData)
     user = models.ForeignKey(auth.User)
     changed = models.DateTimeField(auto_now=True)
+    type = models.ForeignKey(Type, blank=True, null=True)
+    quality = models.ForeignKey(Quality, blank=True, null=True)
     kind = models.ForeignKey(Kind, blank=True, null=True)
-
-    def get_value(self):
-        return self.kind
-
-    def set_value(self, value):
-        if self.kind == value:
-            self.kind = None
-        else:
-            self.kind = value
-        self.save()
-        return self.kind

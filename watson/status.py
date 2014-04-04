@@ -1,12 +1,12 @@
 from watson.models import State, Session, SessionArticle
-from watson.metric import Metric
-from watson.watson_exceptions import NoSessionException, NoArticlesForSessionExistsException, OutOfRangeException, SessionDoesNotExistsException
+from watson.metric import Metrics
+from watson.watson_exceptions import NoSessionException, NoArticleForSessionExistsException, OutOfRangeException, SessionDoesNotExistsException
 
 
 class Status():
 
     def __init__(self, user):
-        self.metrics = {}
+        self.metrics = None
         state = State.objects.filter(user=user)
         if len(state) > 0:
             self.state = state[0]
@@ -23,11 +23,7 @@ class Status():
         self.__load_article_data()
 
     def get_current(self):
-        result = {}
-        for key, metric in self.metrics.items():
-            current = metric.get_current()
-            result[key] = current.get_value() if current else False
-        return result
+        return self.metrics.get_current()
 
     def get_current_session_name(self):
         return self.state.session.name
@@ -41,15 +37,13 @@ class Status():
         return 0
 
     def set_metric(self, metric, value):
-        return self.metrics[metric].set(value)
+        return self.metrics.set(metric, value)
 
     def get_url(self):
         return self.__get_session_article().article.url
 
     def __load_metrics(self):
-        self.metrics['type'] = Metric('type', self.__get_session_article(), self.state.user)
-        self.metrics['kind'] = Metric('kind', self.__get_session_article(), self.state.user)
-        self.metrics['quality'] = Metric('quality', self.__get_session_article(), self.state.user)
+        self.metrics = Metrics(self.__get_session_article(), self.state.user)
 
     def __get_session(self, session):
         if session is None:
@@ -70,7 +64,7 @@ class Status():
         try:
             return SessionArticle.objects.get(session=self.state.session, number=self.state.number)
         except SessionArticle.DoesNotExist:
-            raise NoArticlesForSessionExistsException(self.state.session.name)
+            raise NoArticleForSessionExistsException(self.state.session.name)
 
     def __load_article_data(self):
         session_article = self.__get_session_article()

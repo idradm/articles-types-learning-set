@@ -20,13 +20,13 @@ class SessionDoesNotExistsException(WatsonException):
         return "Session with %s name does not exists" % self.session
 
 
-class NoArticlesForSessionExistsException(WatsonException):
+class NoArticleForSessionExistsException(WatsonException):
     def __init__(self, session):
         self.session = session
         WatsonException.__init__(self)
 
     def __unicode__(self):
-        return "No articles found for %s session" % self.session
+        return "Given article was not found for %s session" % self.session
 
 
 class OutOfRangeException(WatsonException):
