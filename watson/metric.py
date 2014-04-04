@@ -1,7 +1,11 @@
+import re
 from watson import models
 
 
 class Metrics():
+
+    prep = re.compile(r'_([a-z])')
+
     def __init__(self, session_article, user):
         self.article_metrics = (models.ArticleMetrics.objects.filter(article=session_article.article, user=user).first() or
                                 models.ArticleMetrics(article=session_article.article, user=user))
@@ -19,4 +23,5 @@ class Metrics():
 
     @staticmethod
     def _get_model(metric, value):
-        return getattr(models, metric.capitalize()).objects.get(name=value)
+        camel_cased = Metrics.prep.sub(lambda x: x.group(1).upper(), metric.capitalize())
+        return getattr(models, camel_cased).objects.get(name=value)

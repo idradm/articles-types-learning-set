@@ -141,6 +141,10 @@ class Kind(models.Model):
         return self.name
 
 
+class MobileQuality(models.Model):
+    name = models.CharField(max_length=100)
+
+
 class ArticleMetrics(models.Model):
     article = models.ForeignKey(ArticleData)
     user = models.ForeignKey(auth.User)
@@ -148,3 +152,4 @@ class ArticleMetrics(models.Model):
     type = models.ForeignKey(Type, blank=True, null=True)
     quality = models.ForeignKey(Quality, blank=True, null=True)
     kind = models.ForeignKey(Kind, blank=True, null=True)
+    mobile_quality = models.ForeignKey(MobileQuality, blank=True, null=True)

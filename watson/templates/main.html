@@ -8,7 +8,7 @@
 <div class="token">
     {% csrf_token %}
 </div>
-<div class="margin-top-50 ">
+<div>
     <div class="watson-desktop position-absolute"><iframe src="{{ url }}"></iframe></div>
     <div class="watson-mobile width-320 float-right"><iframe src="{{ url }}?useskin=wikiamobile"></iframe></div>
 </div>
@@ -34,5 +34,8 @@
         <li class="nav navbar-nav">
             <button type="button" class="btn btn-primary navbar-btn watson-next">Next</button>
         </li>
+        <ul class="nav navbar-nav yellow-background padding-right-5 watson-metric navbar-right">
+            {% include "metrics/mobile_quality.html" %}
+        </ul>
     </div>
 </nav>

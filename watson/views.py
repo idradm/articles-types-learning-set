@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login
 from watson.status import Status
 from watson.forms.login import WatsonLoginForm
-from watson.models import Session, State, Type, Quality, Kind
+from watson.models import Session, Type, Quality, Kind, MobileQuality
 from watson.watson_exceptions import WatsonException
 
 # Create your views here.
@@ -42,6 +42,7 @@ def main(request, session, number):
                           'categories': Type.get_in_categories(),
                           'quality_levels': Quality.objects.all(),
                           'kinds': Kind.objects.all(),
+                          'mobile_quality_levels': MobileQuality.objects.all(),
                           'set': status.get_current()
                       }
                       )

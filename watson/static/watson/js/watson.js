@@ -56,7 +56,9 @@ $(function(){
         var height = $(document).height() - $('.navbar').height();
         $('.watson-desktop').width($(document).width() - $('.watson-mobile').width());
         $('.watson-desktop').height(height);
+        $('.watson-desktop').css('margin-top', $('.navbar').height());
         $('.watson-mobile').height(height);
+        $('.watson-mobile').css('margin-top', $('.navbar').height());
     }
 
     function toggleHide(el) {
