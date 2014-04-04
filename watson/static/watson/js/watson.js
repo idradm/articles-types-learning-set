@@ -1,6 +1,5 @@
 $(function(){
-    setWidth();
-    $(window).resize(setWidth);
+    $(window).resize(setSize);
 
     $('.watson-hover').hover(toggleHide, toggleHide);
 
@@ -53,8 +52,11 @@ $(function(){
         }
     });
 
-    function setWidth() {
-        $('.watson-desktop').width($(window).width() - $('.watson-mobile').width());
+    function setSize() {
+        var height = $(document).height() - $('.navbar').height();
+        $('.watson-desktop').width($(document).width() - $('.watson-mobile').width());
+        $('.watson-desktop').height(height);
+        $('.watson-mobile').height(height);
     }
 
     function toggleHide(el) {
@@ -64,4 +66,6 @@ $(function(){
     function changeSession(e) {
         window.location.href = window.location.origin + '/watson/' + e.data;
     }
+
+    setSize();
 });

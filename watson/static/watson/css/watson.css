@@ -14,14 +14,6 @@
     margin-top: 50px;
 }
 
-.width-100p {
-    width: 100%;
-}
-
-.height-95p {
-    height: 95%;
-}
-
 .blue-background {
     background-color: #5BC0DE;
 }
@@ -57,8 +49,8 @@
     position: absolute;
 }
 
-.z-index-1 {
-    z-index: 1;
+body {
+    overflow-y: hidden;
 }
 
 iframe {
