@@ -55,19 +55,19 @@ class Session(models.Model):
         self.generate_session_article_set(int(self.pk))
 
     @staticmethod
-    def __check_session(session_collection):
+    def _check_session(session_collection):
         if len(session_collection) == 0:
             return False
 
         cnt = SessionArticle.objects.filter(session_id=session_collection[0].id).count()
         if cnt > 0:
-            print SessionArticle.objects.filter(session_id=session_collection[0].id).delete()
+            SessionArticle.objects.filter(session_id=session_collection[0].id).delete()
 
         return True
 
     def generate_session_article_set(self, session_id):
         session = Session.objects.filter(id=session_id)
-        if self.__check_session(session) is False:
+        if self._check_session(session) is False:
             return False
 
         session_size = session[0].size
