@@ -144,6 +144,9 @@ class Kind(models.Model):
 class MobileQuality(models.Model):
     name = models.CharField(max_length=100)
 
+    def __unicode__(self):
+        return self.name
+
 
 class ArticleMetrics(models.Model):
     article = models.ForeignKey(ArticleData)
@@ -153,3 +156,7 @@ class ArticleMetrics(models.Model):
     quality = models.ForeignKey(Quality, blank=True, null=True)
     kind = models.ForeignKey(Kind, blank=True, null=True)
     mobile_quality = models.ForeignKey(MobileQuality, blank=True, null=True)
+
+    def __unicode__(self):
+        return "%s: %s (%s, %s, %s, %s)" % \
+               (self.user, self.article, str(self.type), str(self.quality), str(self.kind), str(self.mobile_quality))
