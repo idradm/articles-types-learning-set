@@ -47,7 +47,7 @@ class Generator():
 
     def _get_session(self):
         session = models.Session.objects.get(name=self.session_name)
-        if session.article_quality_filter > self.quality_filter:
+        if self.quality_filter and session.article_quality_filter > self.quality_filter:
             return False
         if self.hub_filter and session.hub_filter and session.hub_filter != self.hub_filter:
             return False
@@ -61,13 +61,13 @@ class Generator():
                     '_id': "%s_%s" % (a.article.wiki_id, a.article.page_id),
                     'wikiId': int(a.article.wiki_id),
                     'pageId': int(a.article.page_id),
-                    'title': str(a.article.title),
-                    'wikiText': str(a.article.wikitext),
+                    'title': a.article.title,
+                    'wikiText': a.article.wikitext,
                 }
                 for metric in self.metrics:
                     item[metric] = str(getattr(a, metric).name)
                 result.append(item)
-                if len(result) >= 0 <= self.limit:
+                if 0 <= self.limit <= len(result):
                     return result if self.limit else []
         return result
 
