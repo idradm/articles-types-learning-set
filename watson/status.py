@@ -14,7 +14,7 @@ class Status():
             self.state = State(user=user)
 
     def set(self, session, number):
-        number = int(max(number, 0))
+        number = self._get_number(number)
         session = self._get_session(session)
         self.state.session = session
         self.state.number = self._validate_number(session, number)
@@ -44,6 +44,12 @@ class Status():
 
     def _load_metrics(self):
         self.metrics = Metrics(self._get_session_article(), self.state.user)
+
+    def _get_number(self, number):
+        if not number:
+            if self.state.number is not None:
+                return self.state.number
+        return int(max(number, 0))
 
     def _get_session(self, session):
         if session is None:
