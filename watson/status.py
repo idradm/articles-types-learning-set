@@ -47,7 +47,7 @@ class Status():
 
     def _get_number(self, session, number):
         if not number:
-            if self.state.session == session and self.state.number is not None:
+            if hasattr(self.state, 'session') and self.state.session == session and self.state.number is not None:
                 return self.state.number
 
         return int(max(number, 0))
