@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.forms',
+    'debug_toolbar',
     'bootstrap3',
     'watson',
     'wikia'
