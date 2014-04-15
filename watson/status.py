@@ -7,6 +7,7 @@ class Status():
 
     def __init__(self, user):
         self.metrics = None
+        self.session_article = None
         state = State.objects.filter(user=user)
         if len(state) > 0:
             self.state = state[0]
@@ -69,9 +70,11 @@ class Status():
 
     def _get_session_article(self):
         try:
-            return SessionArticle.objects.get(session=self.state.session, number=self.state.number)
+            if self.session_article is None:
+                self.session_article = SessionArticle.objects.get(session=self.state.session, number=self.state.number)
         except SessionArticle.DoesNotExist:
             raise NoArticleForSessionExistsException(self.state.session.name)
+        return self.session_article
 
     def _load_article_data(self):
         session_article = self._get_session_article()
