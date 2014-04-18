@@ -1,5 +1,5 @@
 from django.contrib import admin
-from watson.models import Session, State, SessionArticle, ArticleData, Type, Kind, Quality, ArticleMetrics
+from watson.models import Session, State, SessionArticle, ArticleData, Type, Kind, Quality, MobileQuality, ArticleMetrics
 
 
 def generate_article_set(modeladmin, request, queryset):
@@ -22,4 +22,5 @@ admin.site.register(ArticleData)
 admin.site.register(Type)
 admin.site.register(Kind)
 admin.site.register(Quality)
+admin.site.register(MobileQuality)
 admin.site.register(ArticleMetrics)
