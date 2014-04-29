@@ -3,12 +3,12 @@ import urllib
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login
-from django.core.servers.basehttp import FileWrapper
 from watson.status import Status
 from watson.forms.login import WatsonLoginForm
 from watson.models import Session, Type, Quality, Kind, MobileQuality
 from watson.watson_exceptions import WatsonException
 from watson.exporter import Exporter
+
 
 # Create your views here.
 def login(request):
