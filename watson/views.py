@@ -7,6 +7,7 @@ from watson.status import Status
 from watson.forms.login import WatsonLoginForm
 from watson.models import Session, Type, Quality, Kind, MobileQuality
 from watson.watson_exceptions import WatsonException
+from watson.exporter import Exporter
 
 # Create your views here.
 def login(request):
@@ -69,3 +70,11 @@ def next(request):
         return HttpResponse(output, content_type="application/json")
     else:
         raise HttpResponse(status=401)
+
+
+def export(request, session):
+    exporter = Exporter(session)
+    exporter.run()
+
+    fsock = open(Exporter.file_name, 'r')
+    return HttpResponse(fsock)

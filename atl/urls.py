@@ -10,4 +10,5 @@ urlpatterns = patterns('',
                        url(r'^watson(?:/)?(?P<session>[\s\w]+)?(?:/)?(?P<number>[\s\w]+)?$', views.main, name="main"),
                        url(r'^sessions/$', views.sessions, name="sessions"),
                        url(r'^next/$', views.next, name="next"),
+                       url(r'^export/(?P<session>[\s\w]+)?$', views.export, name="export"),
 )
