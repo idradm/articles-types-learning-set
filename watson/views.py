@@ -3,6 +3,7 @@ import urllib
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login
+from django.core.servers.basehttp import FileWrapper
 from watson.status import Status
 from watson.forms.login import WatsonLoginForm
 from watson.models import Session, Type, Quality, Kind, MobileQuality
@@ -73,8 +74,14 @@ def next(request):
 
 
 def export(request, session):
-    exporter = Exporter(session)
-    exporter.run()
+    if request.user.is_authenticated():
+        exporter = Exporter(session)
+        exporter.run()
 
-    fsock = open(Exporter.file_name, 'r')
-    return HttpResponse(fsock)
+        file = open(Exporter.file_name, 'r')
+
+        response = HttpResponse(file, content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename=%s' % Exporter.file_name
+        return response
+    else:
+        raise HttpResponse(status=401)
