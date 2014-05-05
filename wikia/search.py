@@ -3,7 +3,7 @@ import requests
 
 class WikiaSearch(object):
     select_url = None
-    config = {'url': 'http://dev-search-s4:8983/solr', 'core': 'main'}
+    config = {'url': 'http://search-s11:8983/solr', 'core': 'main'}
 
     def __init__(self):
         self.select_url = self.config['url'] + '/' + self.config['core'] + '/select?q='

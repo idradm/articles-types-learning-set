@@ -82,7 +82,11 @@ class Session(models.Model):
         if bool(session[0].article_quality_filter) is not False:
             api_access.set_article_quality_filter(session[0].article_quality_filter)
 
-        documents_col = api_access.generate_new_sample(session_size, session_id)
+        host_list = []
+        for host in ExcludedWikis.objects.all():
+            host_list.append(host)
+
+        documents_col = api_access.generate_new_sample(session_size, session_id, host_list)
 
         num = 0
         for doc in documents_col:
@@ -160,3 +164,10 @@ class ArticleMetrics(models.Model):
     def __unicode__(self):
         return "%s: %s (%s, %s, %s, %s)" % \
                (self.user, self.article, str(self.type), str(self.quality), str(self.kind), str(self.mobile_quality))
+
+
+class ExcludedWikis(models.Model):
+    host = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return self.host

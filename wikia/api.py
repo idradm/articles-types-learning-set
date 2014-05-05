@@ -20,10 +20,14 @@ class DocumentProvider(object):
         else:
             self.hub_filter = 'hub:'+hub
 
-    def generate_new_sample(self, size=10, random=randint(1, 5000)):
+    def generate_new_sample(self, size=10, random=randint(1, 5000), exclude_hosts=[]):
         query = 'ns:0 AND lang:en'
         sort = 'random_%d asc' % random
         filter_query = 'is_main_page:false'
+
+        if len(exclude_hosts) > 0:
+            for host in exclude_hosts:
+                filter_query += " AND -(host:%s)" % host
 
         if self.article_quality_filter is not None:
             filter_query += " AND "+self.article_quality_filter
