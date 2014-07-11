@@ -8,6 +8,7 @@ class DocumentProvider(object):
         self.wikia_solr = wikia_solr
         self.hub_filter = None
         self.article_quality_filter = None
+        self.lang_filter = 'en'
 
     def set_article_quality_filter(self, quality):
 
@@ -20,8 +21,11 @@ class DocumentProvider(object):
         else:
             self.hub_filter = 'hub:'+hub
 
+    def set_lang_filter(self, lang):
+        self.lang_filter = lang
+
     def generate_new_sample(self, size=10, random=randint(1, 5000), exclude_hosts=[]):
-        query = 'ns:0 AND lang:en'
+        query = 'ns:0 AND lang:%s' % self.lang_filter
         sort = 'random_%d asc' % random
         filter_query = 'is_main_page:false'
 

@@ -53,6 +53,7 @@ class Session(models.Model):
     size = models.IntegerField()
     article_quality_filter = models.IntegerField(blank=True, null=True)
     hub_filter = models.CharField(max_length=255, blank=True, null=True)
+    lang_filter = models.CharField(max_length=2, blank=True, null=True)
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         super(Session, self).save(force_insert, force_update, using, update_fields)
@@ -81,6 +82,8 @@ class Session(models.Model):
             api_access.set_hub_filter(session[0].hub_filter)
         if bool(session[0].article_quality_filter) is not False:
             api_access.set_article_quality_filter(session[0].article_quality_filter)
+        if bool(session[0].lang_filter) is not False:
+            api_access.set_lang_filter(session[0].lang_filter)
 
         host_list = []
         for host in ExcludedWikis.objects.all():
