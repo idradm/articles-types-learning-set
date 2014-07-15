@@ -1,5 +1,5 @@
 from django.contrib import admin
-from watson.models import Session, State, SessionArticle, ArticleData, Type, Kind, Quality, MobileQuality, ArticleMetrics, ExcludedWikis
+from watson.models import Session, State, SessionArticle, ArticleData, Type, Kind, Quality, MobileQuality, ArticleMetrics, ExcludedWikis, SessionSettings
 
 
 def generate_article_set(modeladmin, request, queryset):
@@ -25,3 +25,4 @@ admin.site.register(Quality)
 admin.site.register(MobileQuality)
 admin.site.register(ArticleMetrics)
 admin.site.register(ExcludedWikis)
+admin.site.register(SessionSettings)

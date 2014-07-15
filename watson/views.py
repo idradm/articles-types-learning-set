@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login
 from watson.status import Status
 from watson.forms.login import WatsonLoginForm
-from watson.models import Session, Type, Quality, Kind, MobileQuality
+from watson.models import Session, Type, Quality, Kind, MobileQuality, SessionSettings
 from watson.watson_exceptions import WatsonException
 from watson.exporter import Exporter
 
@@ -34,6 +34,12 @@ def main(request, session, number):
         except WatsonException as e:
             return HttpResponse(e.__unicode__(), status=400)
 
+        settings = SessionSettings.objects.filter(session=status.get_current_session())
+        if bool(settings) is False:
+            settings = SessionSettings()
+        else:
+            settings = settings[0]
+
         if request.method == 'POST':
             res = status.set_metric(request.POST['metric'], request.POST['type'])
             return HttpResponse(res, status=200)
@@ -45,7 +51,8 @@ def main(request, session, number):
                           'quality_levels': Quality.objects.all(),
                           'kinds': Kind.objects.all(),
                           'mobile_quality_levels': MobileQuality.objects.all(),
-                          'set': status.get_current()
+                          'set': status.get_current(),
+                          'opt': settings
                       }
                       )
     else:

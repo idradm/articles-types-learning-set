@@ -1,16 +1,33 @@
 <li>
     <div class="label">type</div>
     {% for category, types in categories.items %}
-    <li class="watson-cat">
-        <button type="button" class="btn btn-default navbar-btn {% if set.type.category == category %}btn-success{% endif %}"
-                data-toggle="dropdown" data-target="#">
-            {{ category }} <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-            {% for type in types %}
-                <li><a class="watson-btn {% if set.type.name == type %}btn-success{% endif %}" data-metric="type">{{ type }}</a></li>
-            {% endfor %}
-        </ul>
-    </li>
+        {% if category == 'Holmes' %}
+        <li class="watson-cat">
+            {{ category }}:
+            <ul class="btn-group">
+                {% for type in types %}
+                    <li class="btn-group">
+                        <button type="button"
+                                class="btn btn-default navbar-btn watson-btn {% if set.type.name == type %}btn-success{% endif %}"
+                                data-metric="type">{{ type }}</button>
+                    </li>
+                {% endfor %}
+            </ul>
+        </li>
+        {% else %}
+            {% comment %}
+                <p>We don't want to display other groups (categories) of article types for now</p>
+                <p>but we want to keep them in the database</p>
+                <button type="button" class="btn btn-default navbar-btn {% if set.type.category == category %}btn-success{% endif %}"
+                        data-toggle="dropdown" data-target="#">
+                    {{ category }} <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    {% for type in types %}
+                        <li><a class="watson-btn {% if set.type.name == type %}btn-success{% endif %}" data-metric="type">{{ type }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% endcomment %}
+        {% endif %}
     {% endfor %}
 </li>

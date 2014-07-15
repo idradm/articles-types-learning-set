@@ -13,7 +13,9 @@
     </div>
     <div>
         <div class="watson-desktop position-absolute"><iframe src="{{ url }}"></iframe></div>
+        {% if not opt.hide_mobile_view %}
         <div class="watson-mobile width-320 float-right"><iframe src="{{ url }}?useskin=wikiamobile"></iframe></div>
+        {% endif %}
     </div>
     <nav class="navbar navbar-default navbar-fixed-top margin-bottom-0" role="navigation">
         <div class="container-fluid">
@@ -24,22 +26,30 @@
                     </a>
                 </li>
             </ul>
+            {% if not opt.hide_article_type %}
             <ul class="nav navbar-nav blue-background padding-right-5 watson-metric">
-                {% include "metrics/types.html" %}
+               {% include "metrics/types.html" %}
             </ul>
+            {% endif %}
+            {% if not opt.hide_quality %}
             <ul class="nav navbar-nav yellow-background padding-right-5 watson-metric">
-                {% include "metrics/quality.html" %}
+               {% include "metrics/quality.html" %}
             </ul>
+            {% endif %}
+            {% if not opt.hide_kind %}
             <ul class="nav navbar-nav salmon-background padding-right-5 watson-metric">
                 {% include "metrics/kinds.html" %}
             </ul>
+            {% endif %}
             <li class="nav navbar-nav divider"/>
             <li class="nav navbar-nav">
                 <button type="button" class="btn btn-primary navbar-btn watson-next">Next</button>
             </li>
+            {% if not opt.hide_mobile_quality %}
             <ul class="nav navbar-nav yellow-background padding-right-5 watson-metric navbar-right">
                 {% include "metrics/mobile_quality.html" %}
             </ul>
+            {% endif %}
         </div>
     </nav>
 </body>

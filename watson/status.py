@@ -26,6 +26,9 @@ class Status():
     def get_current(self):
         return self.metrics.get_current()
 
+    def get_current_session(self):
+        return self.state.session
+
     def get_current_session_name(self):
         return self.state.session.name
 

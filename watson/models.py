@@ -97,6 +97,8 @@ class Session(models.Model):
             SessionArticle.save_article_to_session(session_id, num, article_model.id)
             num += 1
 
+    def __unicode__(self):
+        return "%s[%s]" % (self.name, self.size)
 
 class State(models.Model):
     session = models.ForeignKey(Session)
@@ -115,6 +117,18 @@ class SessionArticle(models.Model):
                                    article_id=article_id,
                                    number=number)
         ats_model.save()
+
+
+class SessionSettings(models.Model):
+    session = models.OneToOneField(Session)
+    hide_article_type = models.BooleanField(default=False)
+    hide_quality = models.BooleanField(default=False)
+    hide_kind = models.BooleanField(default=False)
+    hide_mobile_quality = models.BooleanField(default=False)
+    hide_mobile_view = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return "Settings for: %s" % (self.session.name)
 
 
 class Type(models.Model):
