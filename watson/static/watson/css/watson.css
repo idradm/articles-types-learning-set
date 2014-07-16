@@ -53,3 +53,13 @@ iframe {
     width: 100%;
     height: 100%;
 }
+
+.watson-sessions-dropdown {
+    cursor: pointer;
+}
+.watson-sessions-dropdown .watson-change-session-catption {
+    color:blue;
+    font-size:10px;
+    text-decoration: underline;
+    margin-bottom:5px;
+}
