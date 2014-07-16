@@ -26,6 +26,11 @@
                     </a>
                 </li>
             </ul>
+            {% if not opt.hide_holmes_type %}
+            <ul class="nav navbar-nav blue-background padding-right-5 watson-metric">
+               {% include "metrics/holmes_types.html" %}
+            </ul>
+            {% endif %}
             {% if not opt.hide_article_type %}
             <ul class="nav navbar-nav blue-background padding-right-5 watson-metric">
                {% include "metrics/types.html" %}

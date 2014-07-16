@@ -121,6 +121,7 @@ class SessionArticle(models.Model):
 
 class SessionSettings(models.Model):
     session = models.OneToOneField(Session)
+    hide_holmes_type = models.BooleanField(default=False)
     hide_article_type = models.BooleanField(default=False)
     hide_quality = models.BooleanField(default=False)
     hide_kind = models.BooleanField(default=False)

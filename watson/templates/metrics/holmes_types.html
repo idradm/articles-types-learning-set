@@ -1,0 +1,19 @@
+<li>
+    <div class="label">type</div>
+    {% for category, types in categories.items %}
+        {% if category == 'Holmes' %}
+        <li class="watson-cat">
+            {{ category }}:
+            <ul class="btn-group">
+                {% for type in types %}
+                    <li class="btn-group">
+                        <button type="button"
+                                class="btn btn-default navbar-btn watson-btn {% if set.type.name == type %}btn-success{% endif %}"
+                                data-metric="type">{{ type }}</button>
+                    </li>
+                {% endfor %}
+            </ul>
+        </li>
+        {% endif %}
+    {% endfor %}
+</li>
