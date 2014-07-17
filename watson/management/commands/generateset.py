@@ -8,6 +8,8 @@ class Command(BaseCommand):
     option_list = BaseCommand.option_list + (
         make_option('-s', '--session', action='store', type='string', dest='session_name',
                     help='Sets session name from which learning set is generated'),
+        make_option('-i', '--ids', action='store', type='string', dest='session_ids',
+                    help='Sets session ids from which learning set is generated'),
         make_option('-o', '--output', action='store', type='string', dest='output_file',
                     help='Sets output file name, on default session name is used'),
         make_option('-m', '--metrics', action='store', type='string', dest='metrics_filter',
@@ -23,9 +25,13 @@ class Command(BaseCommand):
     )
 
     def handle(self, *args, **options):
-        if not options['session_name']:
-            raise CommandError('At least session name has to be stated')
-        generator = Generator(session=options['session_name'])
+        if not options['session_name'] and not options['session_ids']:
+            raise CommandError('At least session name or ids has to be stated')
+        if options['session_ids']:
+            generator = Generator(session_ids=options['session_ids'].split(","))
+        else:
+            generator = Generator(session=options['session_name'])
+
         if options['metrics_filter']:
             metrics = options['metrics_filter'].split(',')
             for metric in metrics:

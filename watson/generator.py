@@ -3,8 +3,9 @@ from watson import models
 
 class Generator():
 
-    def __init__(self, session, metrics=None):
+    def __init__(self, session=None, session_ids=None, metrics=None):
         self.session_name = session
+        self.session_ids = session_ids
         self.metrics = metrics if metrics else []
         self.user_lower_bound = 2
         self.quality_filter = 0
@@ -36,22 +37,42 @@ class Generator():
 
     def run(self):
         result = []
-        session = self._get_session()
-        if session:
-            session_articles = models.SessionArticle.objects.filter(session=session)
+        session = False
+        sessions = False
+
+        if self.session_name is None:
+            sessions = self._get_sessions()
+            if sessions:
+                session_articles = models.SessionArticle.objects.filter(session__in=sessions)
+        else:
+            session = self._get_session()
+            if session:
+                session_articles = models.SessionArticle.objects.filter(session=session)
+
+        unique = []
+        if session or sessions:
             for session_article in session_articles:
-                articles = models.ArticleMetrics.objects.filter(article=session_article.article)
-                result.append(self._validate_article(articles))
+                if session_article.article.pk not in unique:
+                    articles = models.ArticleMetrics.objects.filter(article=session_article.article)
+                    result.append(self._validate_article(articles))
+                    unique.append(session_article.article.pk)
 
         return self._serialize(result)
 
     def _get_session(self):
+        if self.session_name is None:
+            return False
+
         session = models.Session.objects.get(name=self.session_name)
         if self.quality_filter and session.article_quality_filter > self.quality_filter:
             return False
         if self.hub_filter and session.hub_filter and session.hub_filter != self.hub_filter:
             return False
         return session
+
+    def _get_sessions(self):
+        sessions = models.Session.objects.filter(pk__in=self.session_ids)
+        return sessions
 
     def _serialize(self, articles):
         result = []
