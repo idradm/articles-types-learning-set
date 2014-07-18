@@ -12,7 +12,7 @@ class DocumentProvider(object):
 
     def set_article_quality_filter(self, quality):
 
-        self.article_quality_filter = 'article_quality_i:%d' % quality
+        self.article_quality_filter = 'article_quality_i:[%d TO 100]' % quality
 
     def set_hub_filter(self, hub):
         if ',' in hub:

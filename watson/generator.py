@@ -40,10 +40,12 @@ class Generator():
         session = False
         sessions = False
 
-        if self.session_name is None:
+        if self.session_ids is not None:
             sessions = self._get_sessions()
             if sessions:
                 session_articles = models.SessionArticle.objects.filter(session__in=sessions)
+                print sessions
+
         else:
             session = self._get_session()
             if session:
@@ -52,10 +54,11 @@ class Generator():
         unique = []
         if session or sessions:
             for session_article in session_articles:
-                if session_article.article.pk not in unique:
-                    articles = models.ArticleMetrics.objects.filter(article=session_article.article)
-                    result.append(self._validate_article(articles))
-                    unique.append(session_article.article.pk)
+                articles = models.ArticleMetrics.objects.filter(article=session_article.article)
+                if len(articles) > 0:
+                    if articles[0].article.pk not in unique:
+                        result.append(self._validate_article(articles))
+                        unique.append(articles[0].article.pk)
 
         return self._serialize(result)
 
