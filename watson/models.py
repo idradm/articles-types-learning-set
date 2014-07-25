@@ -1,5 +1,6 @@
 import requests
 from django.db import models
+from django.db.models import Max
 from django.contrib.auth import models as auth
 from concurrent.futures import ThreadPoolExecutor
 from wikia import api, search
@@ -117,6 +118,10 @@ class SessionArticle(models.Model):
                                    article_id=article_id,
                                    number=number)
         ats_model.save()
+
+    @staticmethod
+    def get_max_number(session_id):
+        return SessionArticle.objects.filter(session_id=session_id).aggregate(Max('number'))['number__max']
 
 
 class SessionSettings(models.Model):
