@@ -46,10 +46,10 @@ class Command(BaseCommand):
                 separator = options['col'] if options['col'] else ","
                 url = line.split(separator)[1].strip()
                 num += 1
-                print url
                 self._append_to_session(session_id=options['session_id'], article_url=url, num=num)
         session_obj = Session(id=options['session_id'])
         session_obj.size = num
+        session_obj.set_autogenerate_article_set(False)
         session_obj.save(update_fields=['size'])
 
     def _get_article_by_url(self, url):
@@ -67,6 +67,7 @@ class Command(BaseCommand):
                     'article_quality': row['article_quality_i'] if 'article_quality_i' in row else 0,
                     'hub': row['hub'] if 'hub' in row else ''
                 }
+                print row['url']
                 return data
 
         return None

@@ -56,9 +56,17 @@ class Session(models.Model):
     hub_filter = models.CharField(max_length=255, blank=True, null=True)
     lang_filter = models.CharField(max_length=2, blank=True, null=True)
 
+    def __init__(self, *args, **kwargs):
+        super(Session, self).__init__(*args, **kwargs)
+        self.auto_generate_set = True
+
+    def set_autogenerate_article_set(self, val):
+        self.auto_generate_set = val
+
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         super(Session, self).save(force_insert, force_update, using, update_fields)
-        self.generate_session_article_set(int(self.pk))
+        if self.auto_generate_set:
+            self.generate_session_article_set(int(self.pk))
 
     @staticmethod
     def _check_session(session_collection):
